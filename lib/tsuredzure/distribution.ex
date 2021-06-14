@@ -9,6 +9,8 @@ defmodule Tsuredzure.Distribution do
     File.write(path, content)
   end
 
+  def create(:other, _, nil), do: :nothing_to_do
+
   def dir do
     Application.get_env(:tsuredzure, :distribution_dir)
   end

@@ -31,6 +31,10 @@ defmodule Tsuredzure.Converter do
     {:dir, "", convert_base_path_src_to_dist(src_path)}
   end
 
+  def run(_, src_path) do
+    {:other, "", nil}
+  end
+
   def conv_md_to_html(md_content) do
     Earmark.as_html!(md_content, compact_output: true)
   end
