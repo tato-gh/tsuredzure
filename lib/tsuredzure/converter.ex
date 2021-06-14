@@ -27,11 +27,16 @@ defmodule Tsuredzure.Converter do
     {:markdown, html_content, dist_path}
   end
 
+  def run(".html", src_path) do
+    html_content = File.read!(src_path)
+    {:html, html_content, convert_base_path_src_to_dist(src_path)}
+  end
+
   def run("", src_path) do
     {:dir, "", convert_base_path_src_to_dist(src_path)}
   end
 
-  def run(_, src_path) do
+  def run(_, _) do
     {:other, "", nil}
   end
 

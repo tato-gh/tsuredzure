@@ -9,6 +9,10 @@ defmodule Tsuredzure.Distribution do
     File.write(path, content)
   end
 
+  def create(:html, content, path) do
+    File.write(path, content)
+  end
+
   def create(:other, _, nil), do: :nothing_to_do
 
   def dir do

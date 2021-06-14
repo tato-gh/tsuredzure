@@ -1,6 +1,7 @@
 成果物仮置き場
 
 - docs/ 以下にhtmlに変換したファイルを置いて、github pagesで公開している
+- Work in Progress
 
 # htmlファイル作成方法
 
