@@ -113,11 +113,15 @@
 .md-content code,
 .md-content kbd,
 .md-content samp {
-  color: #EEE;
-  background-color: #333;
+  color: #FFF;
+  background-color: #666;
   font-size: 90%;
-  padding: 0.25rem;
+  padding: 0.20rem;
   border-radius: 4px 4px 4px 4px;
+}
+
+.md-content .inline {
+  font-size: 80%;
 }
 
 .md-content pre {
@@ -166,8 +170,7 @@
 
 .md-content ul,
 .md-content ol {
-  margin: 0;
-  padding: 0 0 0 2em;
+  margin: 1em 0 1em 2em;
 }
 
 .md-content ul {
@@ -176,6 +179,16 @@
 
 .md-content ol {
   list-style-type: decimal;
+}
+
+.md-content ul li,
+.md-content ol li {
+  margin-bottom: 0.25em;
+}
+
+.md-content li ul,
+.md-content li ol {
+  margin: 0em 0em 0em 1.5em;
 }
 
 .md-content li p:last-child {

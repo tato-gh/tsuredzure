@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<title>ProtocolMismatchError | にむかひて</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="../../css/whole.css" />
+<link rel="stylesheet" href="part.css" />
+</head>
+
+<body>
+<div class="mx-2 pt-4 text-xs">
+<a href="#" onclick="parent.location.href='../../index.html'; return false;">トップ</a>
+ > <a href="#" onclick="parent.location.href='../index.html'; return false;">ひとこと</a>
+ > <a href="#" onclick="parent.location.href='index.html'; return false;">エラーの記録</a>
+
+</div>
+<div class="flex justify-center items-center min-h-screen pt-4 mx-4">
+  <div class="w-full max-w-screen-lg">
+    <div class="flex justify-between mb-8">
+      <h2 class="font-bold">ProtocolMismatchError</h2>
+      <p class="text-sm">2021-08-28</p>
+    </div>
+    <div class="md-content"><pre><code>%WebDriverClient.ProtocolMismatchError{actual_protocol: :jwp, expected_protocol: :w3c, ~</code></pre><ul><li><code class="inline">protocol: jwp</code> で <code class="inline">WebDriverClient.find_element</code> した際にエラー</li><li>seleniumはresponseを返してきているが、パースした際にWebDriverClientにてprotocolが違うと評価している<ul><li>まず指定したprotocolでパースして、ダメなら次に他のprotocolでパースして、うまくいけばprotocolが違う、という判定</li></ul></li><li>seleniumのresponseが変？ <code class="inline">debug: true</code> にしてレスポンスを覗く</li></ul><pre><code>{
+  &quot;state&quot;: &quot;success&quot;,
+  &quot;sessionId&quot;: null,
+  &quot;class&quot;: &quot;org.openqa.selenium.remote.Response&quot;,
+  &quot;value&quot;: ~,
+  &quot;status&quot;: 0
+}</code></pre><ul><li><code class="inline">protocol: jwp</code>だと”value”が配列で、1つずつが”ELEMENT”というキーになっていることが前提での処理になっている様子</li><li>=&gt; このルールになっていなかったのでエラーになっている</li></ul><hr class="thin" /><ul><li>知識が足りない…</li><li>むりくりだけれど、事前に<code class="inline">protocol: w3c</code>にしてかわす</li></ul><p><code class="inline">session = Map.update!(session, :config, &amp; WebDriverClient.Config.put_protocol(&amp;1, :w3c))</code></p></div>
+  </div>
+</div>
+<hr class="mt-10 mb-4" />
+<div class="mx-2 text-xs">
+<a href="#" onclick="parent.location.href='../../index.html'; return false;">トップ</a>
+ > <a href="#" onclick="parent.location.href='../index.html'; return false;">ひとこと</a>
+ > <a href="#" onclick="parent.location.href='index.html'; return false;">エラーの記録</a>
+
+<div class="max-w-2xl mt-6">
+  <h2 class="text-sm font-bold text-gray-600">サイト内検索</h2>
+  <script async src="https://cse.google.com/cse.js?cx=46c892229d3371f89"></script>
+  <div class="gcse-search"></div>
+</div>
+
+</div>
+</body>
+</html>

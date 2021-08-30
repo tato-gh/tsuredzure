@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<title>a WebDriver error occurred: :session_not_created | にむかひて</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="../../css/whole.css" />
+<link rel="stylesheet" href="part.css" />
+</head>
+
+<body>
+<div class="mx-2 pt-4 text-xs">
+<a href="#" onclick="parent.location.href='../../index.html'; return false;">トップ</a>
+ > <a href="#" onclick="parent.location.href='../index.html'; return false;">ひとこと</a>
+ > <a href="#" onclick="parent.location.href='index.html'; return false;">エラーの記録</a>
+
+</div>
+<div class="flex justify-center items-center min-h-screen pt-4 mx-4">
+  <div class="w-full max-w-screen-lg">
+    <div class="flex justify-between mb-8">
+      <h2 class="font-bold">a WebDriver error occurred: :session_not_created</h2>
+      <p class="text-sm">2021-08-27</p>
+    </div>
+    <div class="md-content"><p><strong>経過１</strong></p><pre><code>(MatchError) no match of right hand side value: {:error, %WebDriverClient.WebDriverError{message: &quot;a WebDriver error occurred: :session_not_created\n&quot;, reason: :session_not_created}}</code></pre><ul><li>web_driver_client hex を試してみたときのエラー</li><li>githubの記述例をもとに下記を実行したときに返ってきた</li></ul><pre><code>{:ok, session} =
+  &quot;http://browser:4444/wd/hub&quot;
+  |&gt; WebDriverClient.Config.build(protocol: :w3c)
+  |&gt; WebDriverClient.start_session(%{&quot;capabilities&quot; =&gt; %{}})</code></pre><ul><li><code class="inline">browser:4444</code> は、dockerコンテナ <code class="inline">selenium/standalone-chrome:3</code> が宛先</li><li><code class="inline">WebDriverClient.Config.build</code> には <code class="inline">debug: true</code> を指定できるのでエラーを探る<ul><li>続く…</li></ul></li></ul><hr class="thin" /><p><strong>経過２</strong></p><pre><code>&quot;org.openqa.selenium.SessionNotCreatedException: Unable to create session from ~略</code></pre><ul><li><code class="inline">WebDriverClient.Config.build</code> に <code class="inline">debug: true</code> を指定して実行し、<code class="inline">browser:4444/wd/hub</code> から返ってきたエラー</li><li>適当にpythonコードを拾ってきて <code class="inline">browser:4444/wd/hub</code> を使ったがこっちでは使用できた<ul><li>pythonのサンプルコードを読むに desiredCapability なるオプションを指定している</li></ul></li><li>=&gt; <code class="inline">desiredCapability</code> をつけたら通った。chromeであることを伝える必要があるということか (?)</li></ul><hr class="thin" /><p><strong>ひとまず動作確認できたコード</strong></p><pre><code>capabilities = %{
+  loadImages: false,
+  takesScreenshot: true,
+  cssSelectorsEnabled: true,
+  javascriptEnabled: true,
+  chromeOptions: %{
+    args: [
+      &quot;--no-sandbox&quot;,
+      &quot;window-size=1280,800&quot;,
+      &quot;--disable-gpu&quot;,
+      &quot;--headless&quot;,
+      &quot;--fullscreen&quot;,
+    ]
+  }
+}
+
+desired_capabilities = %{
+  &quot;browserName&quot; =&gt; &quot;chrome&quot;,
+  &quot;version&quot; =&gt; &quot;&quot;,
+  &quot;platform&quot; =&gt; &quot;ANY&quot;
+}
+
+{:ok, session} =
+  &quot;http://browser:4444/wd/hub&quot;
+  |&gt; WebDriverClient.Config.build(protocol: :jwp, debug: true)
+  |&gt; WebDriverClient.start_session(%{
+    &quot;desiredCapabilities&quot; =&gt; desired_capabilities,
+    &quot;capabilities&quot; =&gt; capabilities,
+  })</code></pre></div>
+  </div>
+</div>
+<hr class="mt-10 mb-4" />
+<div class="mx-2 text-xs">
+<a href="#" onclick="parent.location.href='../../index.html'; return false;">トップ</a>
+ > <a href="#" onclick="parent.location.href='../index.html'; return false;">ひとこと</a>
+ > <a href="#" onclick="parent.location.href='index.html'; return false;">エラーの記録</a>
+
+<div class="max-w-2xl mt-6">
+  <h2 class="text-sm font-bold text-gray-600">サイト内検索</h2>
+  <script async src="https://cse.google.com/cse.js?cx=46c892229d3371f89"></script>
+  <div class="gcse-search"></div>
+</div>
+
+</div>
+</body>
+</html>

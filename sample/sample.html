@@ -8,15 +8,31 @@
 </head>
 
 <body>
-<div class="flex justify-center items-center min-h-screen pt-6 mx-2">
-  <div class="w-full max-w-screen-lg">
-    <div class="md-content"><h1>サンプル</h1><p>これはテストページ</p></div>
-    <div class="w-full border border-gray-200 hover:border-gray-600 rounded-lg mt-6">
-      <a href="index.html" class="block text-center py-2"> 一覧にもどる </a>
-    </div>
-    <iframe src="index.html" title="ナビ" width="100%" height="100%" />
+<div class="mx-2 pt-4 text-xs">
+<a href="#" onclick="parent.location.href='../index.html'; return false;">トップ</a>
+ > <a href="#" onclick="parent.location.href='index.html'; return false;">サンプル</a>
 
+</div>
+<div class="flex justify-center items-center min-h-screen pt-4 mx-4">
+  <div class="w-full max-w-screen-lg">
+    <div class="flex justify-between mb-8">
+      <h2 class="font-bold">これはテスト</h2>
+      <p class="text-sm"></p>
+    </div>
+    <div class="md-content"><h1>サンプル</h1><p>これはテストページ</p></div>
   </div>
+</div>
+<hr class="mt-10 mb-4" />
+<div class="mx-2 text-xs">
+<a href="#" onclick="parent.location.href='../index.html'; return false;">トップ</a>
+ > <a href="#" onclick="parent.location.href='index.html'; return false;">サンプル</a>
+
+<div class="max-w-2xl mt-6">
+  <h2 class="text-sm font-bold text-gray-600">サイト内検索</h2>
+  <script async src="https://cse.google.com/cse.js?cx=46c892229d3371f89"></script>
+  <div class="gcse-search"></div>
+</div>
+
 </div>
 </body>
 </html>

@@ -8,19 +8,37 @@
 </head>
 
 <body>
-<div class="flex justify-center items-center min-h-screen pt-6 mx-2">
+<div class="mx-2 pt-4 text-xs">
+<a href="#" onclick="parent.location.href='../../index.html'; return false;">トップ</a>
+ > <a href="#" onclick="parent.location.href='../index.html'; return false;">ひとこと</a>
+ > <a href="#" onclick="parent.location.href='index.html'; return false;">エラーの記録</a>
+
+</div>
+<div class="flex justify-center items-center min-h-screen pt-4 mx-4">
   <div class="w-full max-w-screen-lg">
+    <div class="flex justify-between mb-8">
+      <h2 class="font-bold">nvim terminal で一部コマンドの出力が表示されない</h2>
+      <p class="text-sm">2021-08-16</p>
+    </div>
     <div class="md-content"><p>出る
 <code class="inline">:e term://top</code>
 <code class="inline">:e term://git log</code></p><p>出ない
 <code class="inline">:e term://ls</code>
 <code class="inline">:e term://git diff</code></p><hr class="thin" /><ul><li>Neovim</li><li>でるときとでないときがある模様</li><li>でるときも出力がきれていたりすることがある</li><li><code class="inline">autocmd TermOpen * set filetype=terminal</code> を消したら出るようになった<ul><li>出力が遅くなる、ということだろうか</li></ul></li></ul></div>
-    <div class="w-full border border-gray-200 hover:border-gray-600 rounded-lg mt-6">
-      <a href="index.html" class="block text-center py-2"> 一覧にもどる </a>
-    </div>
-    <iframe src="index.html" title="ナビ" width="100%" height="100%" />
-
   </div>
+</div>
+<hr class="mt-10 mb-4" />
+<div class="mx-2 text-xs">
+<a href="#" onclick="parent.location.href='../../index.html'; return false;">トップ</a>
+ > <a href="#" onclick="parent.location.href='../index.html'; return false;">ひとこと</a>
+ > <a href="#" onclick="parent.location.href='index.html'; return false;">エラーの記録</a>
+
+<div class="max-w-2xl mt-6">
+  <h2 class="text-sm font-bold text-gray-600">サイト内検索</h2>
+  <script async src="https://cse.google.com/cse.js?cx=46c892229d3371f89"></script>
+  <div class="gcse-search"></div>
+</div>
+
 </div>
 </body>
 </html>
