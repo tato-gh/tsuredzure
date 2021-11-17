@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<title>does not implement the Access behaviour | にむかひて</title>
+<title>erlport call error | にむかひて</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="../../css/whole.css" />
 <link rel="stylesheet" href="part.css" />
@@ -15,9 +15,9 @@
 <main class="w-full mb-6">
   <section class="bg-blue-400 pt-8 pb-6">
     <div class="max-w-4xl lg:mx-auto mx-4">
-      <h2 class="text-5xl text-white font-bold"> does not implement the Access behaviour </h2>
+      <h2 class="text-5xl text-white font-bold"> erlport call error </h2>
       <p class="pt-4 text-md text-white">
-        <span id="month">2021年9月</span>
+        <span id="month">2021年10月</span>
         <span class="ml-2">
         <a href="#" class="underline" onclick="parent.location.href='../../index.html'; return false;">トップ</a>
  &gt; <a href="#" class="underline" onclick="parent.location.href='../index.html'; return false;">ひとこと</a>
@@ -33,7 +33,7 @@
     <article class="relative flex justify-center items-center z-10">
       <div class="w-full max-w-4xl lg:mx-auto bg-white shadow-xl px-8 py-12 mt-4">
         <div class="md-content">
-        <pre><code>does not implement the Access behaviour</code></pre><ul><li><code class="inline">use Ecto.Schema</code> のstructに対する<code class="inline">struct[key]</code>で発生</li><li>…</li><li>=&gt; <code class="inline">Map.fetch!</code>等を使用して一応の解決</li></ul>
+        <pre><code>(FunctionClauseError) no function clause matching in :erlport.call/5</code></pre><ul><li><code class="inline">:python.call(py, &#39;test&#39;, &#39;run&#39;, [&#39;hello&#39;])</code> 等と実行時</li><li>=&gt; シンボルで渡す必要がある様子<ul><li><code class="inline">:python.call(py, :test, :run, [&#39;hello&#39;])</code></li></ul></li></ul>
         </div>
       </div>
     </article>

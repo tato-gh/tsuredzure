@@ -7,20 +7,33 @@
 <link rel="stylesheet" href="part.css" />
 </head>
 
-<body>
-<div class="mx-2 pt-4 text-xs">
-<a href="#" onclick="parent.location.href='../../index.html'; return false;">トップ</a>
- > <a href="#" onclick="parent.location.href='../index.html'; return false;">ひとこと</a>
- > <a href="#" onclick="parent.location.href='index.html'; return false;">エラーの記録</a>
+<body class="min-h-screen bg-gray-100">
+<header class="sticky top-0 w-full bg-gray-600 border-t-2 border-blue-400 text-white text-center py-2 z-50">
+  <h1 class="w-48 text-2xl"> <a href="../../index.html">にむかひて</a> </h1>
+</header>
 
-</div>
-<div class="flex justify-center items-center min-h-screen pt-4 mx-4">
-  <div class="w-full max-w-screen-lg">
-    <div class="flex justify-between mb-8">
-      <h2 class="font-bold">a WebDriver error occurred: :session_not_created</h2>
-      <p class="text-sm">2021-08-27</p>
+<main class="w-full mb-6">
+  <section class="bg-blue-400 pt-8 pb-6">
+    <div class="max-w-4xl lg:mx-auto mx-4">
+      <h2 class="text-5xl text-white font-bold"> a WebDriver error occurred: :session_not_created </h2>
+      <p class="pt-4 text-md text-white">
+        <span id="month">2021年8月</span>
+        <span class="ml-2">
+        <a href="#" class="underline" onclick="parent.location.href='../../index.html'; return false;">トップ</a>
+ &gt; <a href="#" class="underline" onclick="parent.location.href='../index.html'; return false;">ひとこと</a>
+ &gt; <a href="#" id="genre" class="underline" onclick="parent.location.href='index.html'; return false;">エラーの記録</a>
+
+        </span>
+      </p>
     </div>
-    <div class="md-content"><p><strong>経過１</strong></p><pre><code>(MatchError) no match of right hand side value: {:error, %WebDriverClient.WebDriverError{message: &quot;a WebDriver error occurred: :session_not_created\n&quot;, reason: :session_not_created}}</code></pre><ul><li>web_driver_client hex を試してみたときのエラー</li><li>githubの記述例をもとに下記を実行したときに返ってきた</li></ul><pre><code>{:ok, session} =
+  </section>
+  <section class="relative bg-gray-100 text-gray-600">
+    <div class="absolute top-0 left-0 w-full h-16 bg-blue-400 z-0"></div>
+
+    <article class="relative flex justify-center items-center z-10">
+      <div class="w-full max-w-4xl lg:mx-auto bg-white shadow-xl px-8 py-12 mt-4">
+        <div class="md-content">
+        <p><strong>経過１</strong></p><pre><code>(MatchError) no match of right hand side value: {:error, %WebDriverClient.WebDriverError{message: &quot;a WebDriver error occurred: :session_not_created\n&quot;, reason: :session_not_created}}</code></pre><ul><li>web_driver_client hex を試してみたときのエラー</li><li>githubの記述例をもとに下記を実行したときに返ってきた</li></ul><pre><code>{:ok, session} =
   &quot;http://browser:4444/wd/hub&quot;
   |&gt; WebDriverClient.Config.build(protocol: :w3c)
   |&gt; WebDriverClient.start_session(%{&quot;capabilities&quot; =&gt; %{}})</code></pre><ul><li><code class="inline">browser:4444</code> は、dockerコンテナ <code class="inline">selenium/standalone-chrome:3</code> が宛先</li><li><code class="inline">WebDriverClient.Config.build</code> には <code class="inline">debug: true</code> を指定できるのでエラーを探る<ul><li>続く…</li></ul></li></ul><hr class="thin" /><p><strong>経過２</strong></p><pre><code>&quot;org.openqa.selenium.SessionNotCreatedException: Unable to create session from ~略</code></pre><ul><li><code class="inline">WebDriverClient.Config.build</code> に <code class="inline">debug: true</code> を指定して実行し、<code class="inline">browser:4444/wd/hub</code> から返ってきたエラー</li><li>適当にpythonコードを拾ってきて <code class="inline">browser:4444/wd/hub</code> を使ったがこっちでは使用できた<ul><li>pythonのサンプルコードを読むに desiredCapability なるオプションを指定している</li></ul></li><li>=&gt; <code class="inline">desiredCapability</code> をつけたら通った。chromeであることを伝える必要があるということか (?)</li></ul><hr class="thin" /><p><strong>ひとまず動作確認できたコード</strong></p><pre><code>capabilities = %{
@@ -51,21 +64,26 @@ desired_capabilities = %{
   |&gt; WebDriverClient.start_session(%{
     &quot;desiredCapabilities&quot; =&gt; desired_capabilities,
     &quot;capabilities&quot; =&gt; capabilities,
-  })</code></pre></div>
+  })</code></pre>
+        </div>
+      </div>
+    </article>
+    <div class="max-w-4xl lg:mx-auto bg-white rounded mt-12">
+
+  <div class="p-4">
+    <h2 class="text-sm font-bold text-gray-600">サイト内検索</h2>
+    <script async src="https://cse.google.com/cse.js?cx=46c892229d3371f89"></script>
+    <div class="gcse-search"></div>
   </div>
 </div>
-<hr class="mt-10 mb-4" />
-<div class="mx-2 text-xs">
-<a href="#" onclick="parent.location.href='../../index.html'; return false;">トップ</a>
- > <a href="#" onclick="parent.location.href='../index.html'; return false;">ひとこと</a>
- > <a href="#" onclick="parent.location.href='index.html'; return false;">エラーの記録</a>
 
-<div class="max-w-2xl mt-6">
-  <h2 class="text-sm font-bold text-gray-600">サイト内検索</h2>
-  <script async src="https://cse.google.com/cse.js?cx=46c892229d3371f89"></script>
-  <div class="gcse-search"></div>
-</div>
+  </section>
+</main>
+<footer class="w-full h-28 bg-gray-600 text-center py-2">
+  <div class="w-full h-full flex justify-center items-center">
+    <p class="text-gray-300"> &copy; にむかひて </p>
+  </div>
+</footer>
 
-</div>
 </body>
 </html>

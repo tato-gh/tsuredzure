@@ -7,34 +7,52 @@
 <link rel="stylesheet" href="part.css" />
 </head>
 
-<body>
-<div class="mx-2 pt-4 text-xs">
-<a href="#" onclick="parent.location.href='../../index.html'; return false;">トップ</a>
- > <a href="#" onclick="parent.location.href='../index.html'; return false;">ひとこと</a>
- > <a href="#" onclick="parent.location.href='index.html'; return false;">エラーの記録</a>
+<body class="min-h-screen bg-gray-100">
+<header class="sticky top-0 w-full bg-gray-600 border-t-2 border-blue-400 text-white text-center py-2 z-50">
+  <h1 class="w-48 text-2xl"> <a href="../../index.html">にむかひて</a> </h1>
+</header>
 
-</div>
-<div class="flex justify-center items-center min-h-screen pt-4 mx-4">
-  <div class="w-full max-w-screen-lg">
-    <div class="flex justify-between mb-8">
-      <h2 class="font-bold">InRelease is not valid yet</h2>
-      <p class="text-sm">2021-08-24</p>
+<main class="w-full mb-6">
+  <section class="bg-blue-400 pt-8 pb-6">
+    <div class="max-w-4xl lg:mx-auto mx-4">
+      <h2 class="text-5xl text-white font-bold"> InRelease is not valid yet </h2>
+      <p class="pt-4 text-md text-white">
+        <span id="month">2021年8月</span>
+        <span class="ml-2">
+        <a href="#" class="underline" onclick="parent.location.href='../../index.html'; return false;">トップ</a>
+ &gt; <a href="#" class="underline" onclick="parent.location.href='../index.html'; return false;">ひとこと</a>
+ &gt; <a href="#" id="genre" class="underline" onclick="parent.location.href='index.html'; return false;">エラーの記録</a>
+
+        </span>
+      </p>
     </div>
-    <div class="md-content"><pre><code>Release file for http://security.debian.org/debian-security/dists/buster/updates/InRelease is not valid yet (invalid for another ~). Updates for this repository will not be applied.</code></pre><hr class="thin" /><ul><li>docker build 時に <code class="inline">apt update</code> で発生</li><li>マシンの時刻がずれるのが原因とのこと</li><li>=&gt; WSL2環境: <code class="inline">sudo hwclock -s</code> が早い。<code class="inline">ntpdate</code> はデフォルトでは入っていない</li><li>/ <code class="inline">hwclock</code> の hw はハードウェアのこと。マザーボード記録の時刻を参照できる</li><li>/ WSL2環境で時刻がずれる問題はそのうち修正が入るらしい</li><li>/ docker build がこけたときに発生するコンテナとイメージを一括で削除<ul><li><code class="inline">docker rm $(docker ps -a --filter &#39;exited=100&#39; -q) &amp;&amp; docker rmi $(docker images --filter &#39;dangling=true&#39; -aq)</code></li><li>上記のフィルタ(<code class="inline">--filter</code>)については要確認</li></ul></li></ul></div>
+  </section>
+  <section class="relative bg-gray-100 text-gray-600">
+    <div class="absolute top-0 left-0 w-full h-16 bg-blue-400 z-0"></div>
+
+    <article class="relative flex justify-center items-center z-10">
+      <div class="w-full max-w-4xl lg:mx-auto bg-white shadow-xl px-8 py-12 mt-4">
+        <div class="md-content">
+        <pre><code>Release file for http://security.debian.org/debian-security/dists/buster/updates/InRelease is not valid yet (invalid for another ~). Updates for this repository will not be applied.</code></pre><hr class="thin" /><ul><li>docker build 時に <code class="inline">apt update</code> で発生</li><li>マシンの時刻がずれるのが原因とのこと</li><li>=&gt; WSL2環境: <code class="inline">sudo hwclock -s</code> が早い。<code class="inline">ntpdate</code> はデフォルトでは入っていない</li><li>/ <code class="inline">hwclock</code> の hw はハードウェアのこと。マザーボード記録の時刻を参照できる</li><li>/ WSL2環境で時刻がずれる問題はそのうち修正が入るらしい</li><li>/ docker build がこけたときに発生するコンテナとイメージを一括で削除<ul><li><code class="inline">docker rm $(docker ps -a --filter &#39;exited=100&#39; -q) &amp;&amp; docker rmi $(docker images --filter &#39;dangling=true&#39; -aq)</code></li><li>上記のフィルタ(<code class="inline">--filter</code>)については要確認</li></ul></li></ul>
+        </div>
+      </div>
+    </article>
+    <div class="max-w-4xl lg:mx-auto bg-white rounded mt-12">
+
+  <div class="p-4">
+    <h2 class="text-sm font-bold text-gray-600">サイト内検索</h2>
+    <script async src="https://cse.google.com/cse.js?cx=46c892229d3371f89"></script>
+    <div class="gcse-search"></div>
   </div>
 </div>
-<hr class="mt-10 mb-4" />
-<div class="mx-2 text-xs">
-<a href="#" onclick="parent.location.href='../../index.html'; return false;">トップ</a>
- > <a href="#" onclick="parent.location.href='../index.html'; return false;">ひとこと</a>
- > <a href="#" onclick="parent.location.href='index.html'; return false;">エラーの記録</a>
 
-<div class="max-w-2xl mt-6">
-  <h2 class="text-sm font-bold text-gray-600">サイト内検索</h2>
-  <script async src="https://cse.google.com/cse.js?cx=46c892229d3371f89"></script>
-  <div class="gcse-search"></div>
-</div>
+  </section>
+</main>
+<footer class="w-full h-28 bg-gray-600 text-center py-2">
+  <div class="w-full h-full flex justify-center items-center">
+    <p class="text-gray-300"> &copy; にむかひて </p>
+  </div>
+</footer>
 
-</div>
 </body>
 </html>

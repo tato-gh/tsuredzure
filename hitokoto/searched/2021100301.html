@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<title>does not implement the Access behaviour | にむかひて</title>
+<title>docker-compose uid/gid | にむかひて</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="../../css/whole.css" />
 <link rel="stylesheet" href="part.css" />
@@ -15,13 +15,13 @@
 <main class="w-full mb-6">
   <section class="bg-blue-400 pt-8 pb-6">
     <div class="max-w-4xl lg:mx-auto mx-4">
-      <h2 class="text-5xl text-white font-bold"> does not implement the Access behaviour </h2>
+      <h2 class="text-5xl text-white font-bold"> docker-compose uid/gid </h2>
       <p class="pt-4 text-md text-white">
-        <span id="month">2021年9月</span>
+        <span id="month">2021年10月</span>
         <span class="ml-2">
         <a href="#" class="underline" onclick="parent.location.href='../../index.html'; return false;">トップ</a>
  &gt; <a href="#" class="underline" onclick="parent.location.href='../index.html'; return false;">ひとこと</a>
- &gt; <a href="#" id="genre" class="underline" onclick="parent.location.href='index.html'; return false;">エラーの記録</a>
+ &gt; <a href="#" id="genre" class="underline" onclick="parent.location.href='index.html'; return false;">調査したことの記録</a>
 
         </span>
       </p>
@@ -33,7 +33,7 @@
     <article class="relative flex justify-center items-center z-10">
       <div class="w-full max-w-4xl lg:mx-auto bg-white shadow-xl px-8 py-12 mt-4">
         <div class="md-content">
-        <pre><code>does not implement the Access behaviour</code></pre><ul><li><code class="inline">use Ecto.Schema</code> のstructに対する<code class="inline">struct[key]</code>で発生</li><li>…</li><li>=&gt; <code class="inline">Map.fetch!</code>等を使用して一応の解決</li></ul>
+        <p>docker-compose 使用時にユーザのuid/gidを設定するには？</p><ul><li><code class="inline">docker run ~ -u $(id -u):$(id -g) ~</code> 相当のこと</li></ul><p><strong>下記の通り</strong></p><ul><li>環境変数を通して指定する</li><li>設定は <code class="inline">user: &quot;${USER_ID}:${GROUP_ID}&quot;</code> としておく</li><li>起動時に <code class="inline">USER_ID=$(id -u) GROUP_ID=$(id -g) docker-compose up -d</code> 等と指定する</li></ul>
         </div>
       </div>
     </article>
