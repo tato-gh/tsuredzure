@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<title>nvim terminal で一部コマンドの出力が表示されない | にむかひて</title>
+<title>terminal で一部コマンドの出力が表示されない | にむかひて</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="../../css/whole.css" />
 <link rel="stylesheet" href="part.css" />
@@ -15,7 +15,7 @@
 <main class="w-full mb-6">
   <section class="bg-blue-400 pt-8 pb-6">
     <div class="max-w-4xl lg:mx-auto mx-4">
-      <h2 class="text-5xl text-white font-bold"> nvim terminal で一部コマンドの出力が表示されない </h2>
+      <h2 class="text-5xl text-white font-bold"> terminal で一部コマンドの出力が表示されない </h2>
       <div class="flex justify-between pt-4">
         <p class="text-md text-white">
           <span id="month">2021年8月</span>
@@ -25,9 +25,11 @@
  &gt; <a href="index.html" id="genre" class="underline">エラーの記録</a>
 
           </span>
+          <br />
+          <span id="tag">#Neovim</span>
         </p>
         <p>
-          <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank" class="twitter-share-button" data-show-count="false" data-text="nvim terminal で一部コマンドの出力が表示されない" data-url="https://ta-to.github.io/tsuredzure//hitokoto/errors/2021081601.html">Tweet</a>
+          <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank" class="twitter-share-button" data-show-count="false" data-text="terminal で一部コマンドの出力が表示されない" data-url="https://ta-to.github.io/tsuredzure//hitokoto/errors/2021081601.html">Tweet</a>
           <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
         </p>
       </div>
@@ -39,11 +41,7 @@
     <article class="relative flex justify-center items-center z-10">
       <div class="w-full max-w-4xl lg:mx-auto bg-white shadow-xl px-8 py-12 mt-4">
         <div class="md-content">
-        <p>出る
-<code class="inline">:e term://top</code>
-<code class="inline">:e term://git log</code></p><p>出ない
-<code class="inline">:e term://ls</code>
-<code class="inline">:e term://git diff</code></p><hr class="thin" /><ul><li>Neovim</li><li>でるときとでないときがある模様</li><li>でるときも出力がきれていたりすることがある</li><li><code class="inline">autocmd TermOpen * set filetype=terminal</code> を消したら出るようになった<ul><li>出力が遅くなる、ということだろうか</li></ul></li></ul>
+        <p>出力される</p><ul><li><code class="inline">:e term://top</code></li><li><code class="inline">:e term://git log</code></li></ul><p>出力されない</p><ul><li><code class="inline">:e term://ls</code></li><li><code class="inline">:e term://git diff</code></li></ul><hr class="thin" /><ul><li>でるときとでないときがある模様</li><li>でるときも出力がきれていたりすることがある</li><li><code class="inline">autocmd TermOpen * set filetype=terminal</code> を消したら出るようになった<ul><li>出力が遅くなる、ということだろうか</li></ul></li></ul>
         </div>
       </div>
     </article>
