@@ -37,14 +37,13 @@
   </section>
   <section class="relative bg-gray-100 text-gray-600">
     <div class="absolute top-0 left-0 w-full h-16 bg-blue-400 z-0"></div>
-
     <article class="relative flex justify-center items-center z-10">
       <div class="w-full max-w-4xl lg:mx-auto bg-white shadow-xl px-8 py-12 mt-4">
         <div class="md-content">
         <p>LightGBMでカテゴリカル変数を使用するには？
-Elixir側から渡すときにどのようにデータを作るべきか？</p><p><strong>結論</strong></p><p>Elixir側からはわかりやすいようにString(数値0始まり)として送り、Python側でpandas.DataFrameをcategory型にすると良さそう</p><p>ドキュメント(*1)から抜粋</p><blockquote><p>categorical_feature (list of str or int, or ‘auto’, optional (default=’auto’)) – Categorical features. If list of int, interpreted as indices. If list of str, interpreted as feature names (need to specify feature_name as well). If ‘auto’ and data is pandas DataFrame, pandas unordered categorical columns are used.  All values in categorical features should be less than int32 max value (2147483647). Large values could be memory consuming. Consider using consecutive integers starting from zero. All negative values in categorical features will be treated as missing values. The output cannot be monotonically constrained with respect to a categorical feature.</p></blockquote><ul><li>…普通にIntegerで送ったときと手元データでは結果が変わらなかった</li><li>木構造なので、ある程度はよしなにやれる可能性が高い</li><li>とはいえ、ドキュメントにあるので対応しておくのがベターと思われる</li></ul><p><strong>コード（イメージ）</strong></p><pre><code class="elixir">target_vec = #&lt;= 何かしらのカテゴリカル変数データ配列
+Elixir側から渡すときにどのようにデータを作るべきか？</p><p><strong>結論</strong></p><p>Elixir側からはわかりやすいようにString(数値0始まり)として送り、Python側でpandas.DataFrameをcategory型にすると良さそう</p><p>ドキュメント(*1)から抜粋</p><blockquote><p>categorical_feature (list of str or int, or ‘auto’, optional (default=’auto’)) – Categorical features. If list of int, interpreted as indices. If list of str, interpreted as feature names (need to specify feature_name as well). If ‘auto’ and data is pandas DataFrame, pandas unordered categorical columns are used.  All values in categorical features should be less than int32 max value (2147483647). Large values could be memory consuming. Consider using consecutive integers starting from zero. All negative values in categorical features will be treated as missing values. The output cannot be monotonically constrained with respect to a categorical feature.</p></blockquote><ul><li>ということでString(category型)にしてはみたが、手元データでは普通にIntegerで送ったときと結果が変わらなかった<ul><li>木構造なので、ある程度はよしなにやれる可能性が高い</li><li>とはいえ、ドキュメントにあるので対応しておくのがベターと思われる</li></ul></li></ul><p><strong>コード（イメージ）</strong></p><pre><code class="elixir">target_vec = #&lt;= 何かしらのカテゴリカル変数データ配列
 dict = target_vec |&gt; Enum.uniq() |&gt; Enum.with_index() |&gt; Enum.into(%{}, fn {label, ind} -&gt; {label, Integer.to_string(ind)} end)
-target_vec = target_vec |&gt; Enum.map(&amp; dict[&amp;1])</code></pre><ul><li><code class="inline">Integer.to_string</code> にしているのはpython側でcategoryだと判別できるようにするため</li><li>学習と試行が同じタイミングでないのであれば、試行時も同じindex(辞書)で採番する必要があるので注意する<ul><li>python側で <code class="inline">astype(&#39;category&#39;).cat.codes</code> は使えないということ</li></ul></li></ul><pre><code class="python">vec = pd.DataFrame(vec)
+target_vec = target_vec |&gt; Enum.map(&amp; dict[&amp;1])</code></pre><ul><li><code class="inline">Integer.to_string()</code> により文字列にして、python側でcategoryだと判別できるようにしている</li><li>学習と試行時に同じindex(辞書)で採番する必要があるので注意する<ul><li>python側で <code class="inline">astype(&#39;category&#39;).cat.codes</code> は使えないということ</li></ul></li></ul><pre><code class="python">vec = pd.DataFrame(vec)
 for i, v in enumerate(vec.dtypes):
   if v == &#39;object&#39;:
     vec[i] = vec[i].astype(&#39;category&#39;)
@@ -65,7 +64,10 @@ return vec</code></pre><ul><li>受け取ったデータをpandasのデータフ�
 </main>
 <footer class="w-full h-28 bg-gray-600 text-center py-2">
   <div class="w-full h-full flex justify-center items-center">
-    <p class="text-gray-300"> &copy; にむかひて </p>
+    <p class="text-gray-300">
+      &copy; にむかひて<br />
+      <a href="https://forms.office.com/r/Vc1YRFgGAw" target="_blank"> お問い合わせはこちら </a>
+    </p>
   </div>
 </footer>
 
