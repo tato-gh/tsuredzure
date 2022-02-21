@@ -1,3 +1,3 @@
-https://ta-to.github.io/tsuredzure/index.html
-https://ta-to.github.io/tsuredzure/hitokoto/index.html
-https://ta-to.github.io/tsuredzure/hitokoto/errors/index.html
+https://track.tsukinolab.jp/index.html
+https://track.tsukinolab.jp/hitokoto/index.html
+https://track.tsukinolab.jp/hitokoto/errors/index.html
