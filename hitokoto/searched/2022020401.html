@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<title>Phoenix1.6でコンポーネントな共通処理をどう書く？ | にむかひて</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="../../css/whole.css" />
+<link rel="stylesheet" href="part.css" />
+</head>
+
+<body class="min-h-screen bg-gray-100">
+<header class="sticky top-0 w-full bg-gray-600 border-t-2 border-blue-400 text-white text-center py-2 z-50">
+  <h1 class="w-48 text-2xl"> <a href="../../index.html">にむかひて</a> </h1>
+</header>
+
+<main class="w-full mb-6">
+  <section class="bg-blue-400 pt-8 pb-6">
+    <div class="max-w-4xl lg:mx-auto mx-4">
+      <h2 class="text-5xl text-white font-bold"> Phoenix1.6でコンポーネントな共通処理をどう書く？ </h2>
+      <div class="flex justify-between pt-4">
+        <p class="text-md text-white">
+          <span id="month">2022年2月</span>
+          <span class="ml-2">
+          <a href="../../index.html" class="underline">トップ</a>
+ &gt; <a href="../index.html" class="underline">ひとこと</a>
+ &gt; <a href="index.html" id="genre" class="underline">調査したことの記録</a>
+
+          </span>
+          <br />
+          <span id="tag">#Elixir #Phoenix</span>
+        </p>
+        <p>
+          <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank" class="twitter-share-button" data-show-count="false" data-text="Phoenix1.6でコンポーネントな共通処理をどう書く？" data-url="https://ta-to.github.io/tsuredzure//hitokoto/searched/2022020401.html">Tweet</a>
+          <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </p>
+      </div>
+    </div>
+  </section>
+  <section class="relative bg-gray-100 text-gray-600">
+    <div class="absolute top-0 left-0 w-full h-16 bg-blue-400 z-0"></div>
+    <article class="relative flex justify-center items-center z-10">
+      <div class="w-full max-w-4xl lg:mx-auto bg-white shadow-xl px-8 py-12 mt-4">
+        <div class="md-content">
+        <p>共通処理の書き方の作法がピンとこない</p><ul><li>アトムのような小さなパーツ(e.g. <code class="inline">raw icon()</code>)でもなく、</li><li><code class="inline">live_component</code> を使うほどでもない</li><li>また <code class="inline">content_tag</code> の入れ子で作るのがしんどい</li></ul><p><strong>結論</strong></p><p><code class="inline">&lt;.hoge name=&quot;foo&quot; /&gt;</code> で呼び出すことで、<code class="inline">~H</code>の形式で返せるヘルパー関数が作れる</p><ul><li>// 表現が怪しい</li><li>公式にそれっぽいサンプルがあった</li></ul><pre><code>&lt;.my_link href=&quot;/&quot; id={@id} new_window={true} class=&quot;my-class&quot;&gt;Home&lt;/.my_link&gt;</code></pre><pre><code>def my_link(assigns) do
+  target = if assigns[:new_window], do: &quot;_blank&quot;, else: false
+  extra = assigns_to_attributes(assigns, [:new_window])
+
+  assigns =
+    assigns
+    |&gt; Phoenix.LiveView.assign(:target, target)
+    |&gt; Phoenix.LiveView.assign(:extra, extra)
+
+  ~H&quot;&quot;&quot;
+  &lt;a href={@href} target={@target} {@extra}&gt;
+    &lt;%= render_slot(@inner_block) %&gt;
+  &lt;/a&gt;
+  &quot;&quot;&quot;
+end</code></pre><p><strong>参考にさせていただいた資料</strong></p><ul><li><a href="https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.Helpers.html#assigns_to_attributes/2">https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.Helpers.html#assigns_to_attributes/2</a></li></ul>
+        </div>
+      </div>
+    </article>
+    <div class="max-w-4xl lg:mx-auto bg-white rounded mt-12">
+
+  <div class="p-4">
+    <h2 class="text-sm font-bold text-gray-600">サイト内検索</h2>
+    <script async src="https://cse.google.com/cse.js?cx=46c892229d3371f89"></script>
+    <div class="gcse-search"></div>
+  </div>
+</div>
+
+  </section>
+</main>
+<footer class="w-full h-28 bg-gray-600 text-center py-2">
+  <div class="w-full h-full flex justify-center items-center">
+    <p class="text-gray-300">
+      &copy; にむかひて<br />
+      <a href="https://forms.office.com/r/Vc1YRFgGAw" target="_blank"> お問い合わせはこちら </a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>

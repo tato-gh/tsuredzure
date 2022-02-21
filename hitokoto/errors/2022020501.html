@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<title>'Failed to load NIF library' | にむかひて</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="../../css/whole.css" />
+<link rel="stylesheet" href="part.css" />
+</head>
+
+<body class="min-h-screen bg-gray-100">
+<header class="sticky top-0 w-full bg-gray-600 border-t-2 border-blue-400 text-white text-center py-2 z-50">
+  <h1 class="w-48 text-2xl"> <a href="../../index.html">にむかひて</a> </h1>
+</header>
+
+<main class="w-full mb-6">
+  <section class="bg-blue-400 pt-8 pb-6">
+    <div class="max-w-4xl lg:mx-auto mx-4">
+      <h2 class="text-5xl text-white font-bold"> 'Failed to load NIF library' </h2>
+      <div class="flex justify-between pt-4">
+        <p class="text-md text-white">
+          <span id="month">2022年2月</span>
+          <span class="ml-2">
+          <a href="../../index.html" class="underline">トップ</a>
+ &gt; <a href="../index.html" class="underline">ひとこと</a>
+ &gt; <a href="index.html" id="genre" class="underline">エラーの記録</a>
+
+          </span>
+          <br />
+          <span id="tag">#Elixir #Cmark</span>
+        </p>
+        <p>
+          <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank" class="twitter-share-button" data-show-count="false" data-text="'Failed to load NIF library'" data-url="https://ta-to.github.io/tsuredzure//hitokoto/errors/2022020501.html">Tweet</a>
+          <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </p>
+      </div>
+    </div>
+  </section>
+  <section class="relative bg-gray-100 text-gray-600">
+    <div class="absolute top-0 left-0 w-full h-16 bg-blue-400 z-0"></div>
+    <article class="relative flex justify-center items-center z-10">
+      <div class="w-full max-w-4xl lg:mx-auto bg-white shadow-xl px-8 py-12 mt-4">
+        <div class="md-content">
+        <pre><code>{:error, {:load_failed, &#39;Failed to load NIF library~略~cmark/priv/cmark: \&#39;libc.musl-x86_64.so.1: cannot open shared object file: No such file or directory\&#39;&#39;}</code></pre><ul><li>docker elixir環境</li><li>cmark hex をインストールして使おうとしてのエラー</li></ul><p><strong>結論</strong></p><ul><li>依存ライブラリをインストールする。<code class="inline">apt install musl-dev</code></li><li>見つからないのでリンクする。<code class="inline">ln -s /lib/ld-musl-x86_64.so.1 /lib/libc.musl-x86_64.so.1</code></li><li>// エラーは出なくなったけれど細かいことまでは調べていない</li></ul><p><strong>その他のメモ</strong></p><ul><li><code class="inline">mix deps.compile cmark --force</code> 等でライブラリをコンパイルできる</li><li>earmark hexも試していたけれど <code class="inline">- a</code> が <code class="inline">&lt;li&gt;\na&lt;/li&gt;</code> のようになぜか改行が入るので代替</li></ul><p><strong>参考させていただいた資料</strong></p><ul><li><a href="https://qiita.com/unchi/items/945478d518f5f76ce4b6">https://qiita.com/unchi/items/945478d518f5f76ce4b6</a></li></ul>
+        </div>
+      </div>
+    </article>
+    <div class="max-w-4xl lg:mx-auto bg-white rounded mt-12">
+
+  <div class="p-4">
+    <h2 class="text-sm font-bold text-gray-600">サイト内検索</h2>
+    <script async src="https://cse.google.com/cse.js?cx=46c892229d3371f89"></script>
+    <div class="gcse-search"></div>
+  </div>
+</div>
+
+  </section>
+</main>
+<footer class="w-full h-28 bg-gray-600 text-center py-2">
+  <div class="w-full h-full flex justify-center items-center">
+    <p class="text-gray-300">
+      &copy; にむかひて<br />
+      <a href="https://forms.office.com/r/Vc1YRFgGAw" target="_blank"> お問い合わせはこちら </a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>

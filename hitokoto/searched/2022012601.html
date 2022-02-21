@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<title>doctestでランダムな結果を扱うには？ | にむかひて</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="../../css/whole.css" />
+<link rel="stylesheet" href="part.css" />
+</head>
+
+<body class="min-h-screen bg-gray-100">
+<header class="sticky top-0 w-full bg-gray-600 border-t-2 border-blue-400 text-white text-center py-2 z-50">
+  <h1 class="w-48 text-2xl"> <a href="../../index.html">にむかひて</a> </h1>
+</header>
+
+<main class="w-full mb-6">
+  <section class="bg-blue-400 pt-8 pb-6">
+    <div class="max-w-4xl lg:mx-auto mx-4">
+      <h2 class="text-5xl text-white font-bold"> doctestでランダムな結果を扱うには？ </h2>
+      <div class="flex justify-between pt-4">
+        <p class="text-md text-white">
+          <span id="month">2022年1月</span>
+          <span class="ml-2">
+          <a href="../../index.html" class="underline">トップ</a>
+ &gt; <a href="../index.html" class="underline">ひとこと</a>
+ &gt; <a href="index.html" id="genre" class="underline">調査したことの記録</a>
+
+          </span>
+          <br />
+          <span id="tag">#Elixir</span>
+        </p>
+        <p>
+          <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank" class="twitter-share-button" data-show-count="false" data-text="doctestでランダムな結果を扱うには？" data-url="https://ta-to.github.io/tsuredzure//hitokoto/searched/2022012601.html">Tweet</a>
+          <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </p>
+      </div>
+    </div>
+  </section>
+  <section class="relative bg-gray-100 text-gray-600">
+    <div class="absolute top-0 left-0 w-full h-16 bg-blue-400 z-0"></div>
+    <article class="relative flex justify-center items-center z-10">
+      <div class="w-full max-w-4xl lg:mx-auto bg-white shadow-xl px-8 py-12 mt-4">
+        <div class="md-content">
+        <p>Elixirのdoctestはメソッドの近くに出力例と合わせて書けて嬉しい！けど、出力がランダムになるようなのはどうすればいい？</p><ul><li><code class="inline">Enum.random([1,2,3])</code> みたいな関数<ul><li>// <code class="inline">Enum.sample()</code> とよく間違える…</li></ul></li></ul><p><strong>結論</strong></p><ul><li><code class="inline">:rand.seed(:exsplus, {101, 102, 103})</code> 等として固定する</li><li><code class="inline">:exsplus</code> は、アルゴリズムの指定のこと</li><li><code class="inline">{101, 102, 103}</code> はそれぞれInteger指定で、各アルゴリズムで初期化に使用される（のでこの度指定する）</li><li>// <code class="inline">Enum.random()</code> のソースをみればいいのでは、ということで見てみた</li></ul><p><strong>参考させていただいた資料等</strong></p><ul><li><a href="https://stackoverflow.com/questions/48857468/elixir-doctest-fails-for-function-that-returns-random-values">https://stackoverflow.com/questions/48857468/elixir-doctest-fails-for-function-that-returns-random-values</a></li><li><code class="inline">Enum.random()</code> ソース<ul><li><a href="https://github.com/elixir-lang/elixir/blob/a87046a2cfa406e1bd63beba9c438eb61b8fa0bc/lib/elixir/lib/enum.ex#L1776-L1783">https://github.com/elixir-lang/elixir/blob/a87046a2cfa406e1bd63beba9c438eb61b8fa0bc/lib/elixir/lib/enum.ex#L1776-L1783</a></li></ul></li><li><a href="http://marianoguerra.org/tmp/otp/stdlib/rand.html">http://marianoguerra.org/tmp/otp/stdlib/rand.html</a><ul><li><code class="inline">erlang rand</code> について</li></ul></li><li><a href="https://www.erlang.org/doc/man/rand.html#type-seed">https://www.erlang.org/doc/man/rand.html#type-seed</a><ul><li><code class="inline">rand</code> のシードについて</li></ul></li></ul><p><strong>その他</strong></p><p>ライブラリでは、ランダムな文字列（トークンなど）をどう作っているのか。<code class="inline">phx.gen.auth</code> をみてみる</p><ul><li><code class="inline">:crypto.strong_rand_bytes/1</code> を使っていた<ul><li><a href="https://www.erlang.org/doc/man/crypto.html#strong_rand_bytes-1">https://www.erlang.org/doc/man/crypto.html#strong_rand_bytes-1</a></li></ul></li><li>こちらはOS由来とのこと。同じような固定はできない（できなくていい）</li></ul><pre><code>iex&gt; :crypto.strong_rand_bytes(1)
+&quot;m&quot;
+iex&gt; &quot;m&quot; &lt;&gt; &lt;&lt;0&gt;&gt;
+&lt;&lt;109, 0&gt;&gt;
+iex&gt; &lt;&lt;109&gt;&gt;
+&quot;m&quot;</code></pre>
+        </div>
+      </div>
+    </article>
+    <div class="max-w-4xl lg:mx-auto bg-white rounded mt-12">
+
+  <div class="p-4">
+    <h2 class="text-sm font-bold text-gray-600">サイト内検索</h2>
+    <script async src="https://cse.google.com/cse.js?cx=46c892229d3371f89"></script>
+    <div class="gcse-search"></div>
+  </div>
+</div>
+
+  </section>
+</main>
+<footer class="w-full h-28 bg-gray-600 text-center py-2">
+  <div class="w-full h-full flex justify-center items-center">
+    <p class="text-gray-300">
+      &copy; にむかひて<br />
+      <a href="https://forms.office.com/r/Vc1YRFgGAw" target="_blank"> お問い合わせはこちら </a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
