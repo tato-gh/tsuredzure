@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<title>terminal で一部コマンドの出力が表示されない | にむかひて</title>
+<title>(Postgrex.Error) ERROR XX000 (internal_error) | にむかひて</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="../../css/whole.css" />
 <link rel="stylesheet" href="part.css" />
@@ -15,10 +15,10 @@
 <main class="w-full mb-6">
   <section class="bg-blue-400 pt-8 pb-6">
     <div class="max-w-4xl lg:mx-auto mx-4">
-      <h2 class="text-5xl text-white font-bold"> terminal で一部コマンドの出力が表示されない </h2>
+      <h2 class="text-5xl text-white font-bold"> (Postgrex.Error) ERROR XX000 (internal_error) </h2>
       <div class="flex justify-between pt-4">
         <p class="text-md text-white">
-          <span id="month">2021年8月</span>
+          <span id="month">2021年12月</span>
           <span class="ml-2">
           <a href="../../index.html" class="underline">トップ</a>
  &gt; <a href="../index.html" class="underline">ひとこと</a>
@@ -26,10 +26,10 @@
 
           </span>
           <br />
-          <span id="tag">#Neovim</span>
+          <span id="tag">#PostgreSQL</span>
         </p>
         <p>
-          <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank" class="twitter-share-button" data-show-count="false" data-text="terminal で一部コマンドの出力が表示されない" data-url="https://track.tsukinolab.jp//hitokoto/errors/2021081601.html">Tweet</a>
+          <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank" class="twitter-share-button" data-show-count="false" data-text="(Postgrex.Error) ERROR XX000 (internal_error)" data-url="https://track.tsukinolab.jp/hitokoto/errors/20211102.html">Tweet</a>
           <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
         </p>
       </div>
@@ -40,7 +40,7 @@
     <article class="relative flex justify-center items-center z-10">
       <div class="w-full max-w-4xl lg:mx-auto bg-white shadow-xl px-8 py-12 mt-4">
         <div class="md-content">
-        <p>出力される</p><ul><li><code class="inline">:e term://top</code></li><li><code class="inline">:e term://git log</code></li></ul><p>出力されない</p><ul><li><code class="inline">:e term://ls</code></li><li><code class="inline">:e term://git diff</code></li></ul><hr class="thin" /><ul><li>でるときとでないときがある模様</li><li>でるときも出力がきれていたりすることがある</li><li><code class="inline">autocmd TermOpen * set filetype=terminal</code> を消したら出るようになった<ul><li>出力が遅くなる、ということだろうか</li></ul></li></ul>
+        <pre><code>** (Postgrex.Error) ERROR XX000 (internal_error) could not open file &quot;base/16384/66656.1&quot; (target block 583714): previous segment is only 66834 blocks</code></pre><ul><li>正常に動いている状態から唐突にでてきた。なんだこれ…嫌な予感</li><li>エラーがでたのと別の処理は動いた</li><li>エラーコードのXX000はinternal_errorであることを示している。メッセージの通り</li><li>とりあえずコンテナを再起動してみた（が、予想通り意味なし）</li><li>DBコンテナのログを確認する<ul><li>関係しそうなもの? =&gt; <code class="inline">ERROR: could not read block 98476 in file &quot;base/16384/66656&quot;: read only 0 of 8192 bytes</code><ul><li>こっちはFSM(Free Space Map)に関わるエラーらしい</li></ul></li><li><code class="inline">VACUUM FULL</code> してみる<ul><li>途中でなぜか落ちた</li></ul></li></ul></li><li>再起動後に再現されなくなった</li><li>何もわからなかったけど解決！</li></ul><p><strong>参考させていただいた資料</strong></p><ul><li><a href="https://postgrespro.com/list/thread-id/2545820">https://postgrespro.com/list/thread-id/2545820</a></li><li><a href="https://www.sraoss.co.jp/tech-blog/pgsql/9-5-5/">https://www.sraoss.co.jp/tech-blog/pgsql/9-5-5/</a></li><li><a href="https://www.postgresql.org/message-id/15532-bdaabfecf52cdbf1@postgresql.org">https://www.postgresql.org/message-id/15532-bdaabfecf52cdbf1@postgresql.org</a></li></ul>
         </div>
       </div>
     </article>

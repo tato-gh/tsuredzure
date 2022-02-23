@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<title>apt update :: Release file ~ is not valid yet | にむかひて</title>
+<title>docker-compose uid/gid を指定したい | にむかひて</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="../../css/whole.css" />
 <link rel="stylesheet" href="part.css" />
@@ -15,21 +15,21 @@
 <main class="w-full mb-6">
   <section class="bg-blue-400 pt-8 pb-6">
     <div class="max-w-4xl lg:mx-auto mx-4">
-      <h2 class="text-5xl text-white font-bold"> apt update :: Release file ~ is not valid yet </h2>
+      <h2 class="text-5xl text-white font-bold"> docker-compose uid/gid を指定したい </h2>
       <div class="flex justify-between pt-4">
         <p class="text-md text-white">
-          <span id="month">2021年8月</span>
+          <span id="month">2021年10月</span>
           <span class="ml-2">
           <a href="../../index.html" class="underline">トップ</a>
  &gt; <a href="../index.html" class="underline">ひとこと</a>
- &gt; <a href="index.html" id="genre" class="underline">エラーの記録</a>
+ &gt; <a href="index.html" id="genre" class="underline">調査したことの記録</a>
 
           </span>
           <br />
           <span id="tag">#Docker</span>
         </p>
         <p>
-          <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank" class="twitter-share-button" data-show-count="false" data-text="apt update :: Release file ~ is not valid yet" data-url="https://track.tsukinolab.jp//hitokoto/errors/2021082401.html">Tweet</a>
+          <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank" class="twitter-share-button" data-show-count="false" data-text="docker-compose uid/gid を指定したい" data-url="https://track.tsukinolab.jp/hitokoto/searched/20211001.html">Tweet</a>
           <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
         </p>
       </div>
@@ -40,7 +40,7 @@
     <article class="relative flex justify-center items-center z-10">
       <div class="w-full max-w-4xl lg:mx-auto bg-white shadow-xl px-8 py-12 mt-4">
         <div class="md-content">
-        <pre><code>Release file for http://security.debian.org/debian-security/dists/buster/updates/InRelease is not valid yet (invalid for another ~). Updates for this repository will not be applied.</code></pre><hr class="thin" /><ul><li>docker build 時に <code class="inline">apt update</code> で発生</li><li>マシンの時刻がずれるのが原因とのこと</li><li>=&gt; WSL2環境: <code class="inline">sudo hwclock -s</code> が早い。<code class="inline">ntpdate</code> はデフォルトでは入っていない</li><li>/ <code class="inline">hwclock</code> の hw はハードウェアのこと。マザーボード記録の時刻を参照できる</li><li>/ WSL2環境で時刻がずれる問題はそのうち修正が入るらしい</li><li>/ docker build がこけたときに発生するコンテナとイメージを一括で削除<ul><li><code class="inline">docker rm $(docker ps -a --filter &#39;exited=100&#39; -q) &amp;&amp; docker rmi $(docker images --filter &#39;dangling=true&#39; -aq)</code></li><li>上記のフィルタ(<code class="inline">--filter</code>)については要確認</li></ul></li></ul>
+        <p>docker-compose 使用時にユーザのuid/gidを設定するには？</p><ul><li><code class="inline">docker run ~ -u $(id -u):$(id -g) ~</code> 相当のことをしたい</li></ul><p><strong>下記の通り</strong></p><ul><li>環境変数を通して指定する</li><li>設定は <code class="inline">user: &quot;${USER_ID}:${GROUP_ID}&quot;</code> としておく</li><li>起動時に <code class="inline">USER_ID=$(id -u) GROUP_ID=$(id -g) docker-compose up -d</code> 等と指定する</li></ul>
         </div>
       </div>
     </article>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<title>docker-compose uid/gid を指定したい | にむかひて</title>
+<title>Alpinejs(v3)がPhoenix(1.6)で動かない | にむかひて</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="../../css/whole.css" />
 <link rel="stylesheet" href="part.css" />
@@ -15,21 +15,21 @@
 <main class="w-full mb-6">
   <section class="bg-blue-400 pt-8 pb-6">
     <div class="max-w-4xl lg:mx-auto mx-4">
-      <h2 class="text-5xl text-white font-bold"> docker-compose uid/gid を指定したい </h2>
+      <h2 class="text-5xl text-white font-bold"> Alpinejs(v3)がPhoenix(1.6)で動かない </h2>
       <div class="flex justify-between pt-4">
         <p class="text-md text-white">
-          <span id="month">2021年10月</span>
+          <span id="month">2022年2月</span>
           <span class="ml-2">
           <a href="../../index.html" class="underline">トップ</a>
  &gt; <a href="../index.html" class="underline">ひとこと</a>
- &gt; <a href="index.html" id="genre" class="underline">調査したことの記録</a>
+ &gt; <a href="index.html" id="genre" class="underline">エラーの記録</a>
 
           </span>
           <br />
-          <span id="tag">#Docker</span>
+          <span id="tag">#Alpinejs #Phoenix</span>
         </p>
         <p>
-          <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank" class="twitter-share-button" data-show-count="false" data-text="docker-compose uid/gid を指定したい" data-url="https://track.tsukinolab.jp//hitokoto/searched/2021100301.html">Tweet</a>
+          <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank" class="twitter-share-button" data-show-count="false" data-text="Alpinejs(v3)がPhoenix(1.6)で動かない" data-url="https://track.tsukinolab.jp/hitokoto/errors/20220201.html">Tweet</a>
           <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
         </p>
       </div>
@@ -40,7 +40,11 @@
     <article class="relative flex justify-center items-center z-10">
       <div class="w-full max-w-4xl lg:mx-auto bg-white shadow-xl px-8 py-12 mt-4">
         <div class="md-content">
-        <p>docker-compose 使用時にユーザのuid/gidを設定するには？</p><ul><li><code class="inline">docker run ~ -u $(id -u):$(id -g) ~</code> 相当のことをしたい</li></ul><p><strong>下記の通り</strong></p><ul><li>環境変数を通して指定する</li><li>設定は <code class="inline">user: &quot;${USER_ID}:${GROUP_ID}&quot;</code> としておく</li><li>起動時に <code class="inline">USER_ID=$(id -u) GROUP_ID=$(id -g) docker-compose up -d</code> 等と指定する</li></ul>
+        <p>いざ必要になって使おうとしたら動かない。コンソールにエラーもでない</p><p><strong>結論</strong></p><p>(1) どうやら <code class="inline">Alpine.start()</code> が必要になった様子
+(2) LiveScoket(app.jp) の設定に変更があったらしい（公式より）</p><pre><code>-    onBeforeElUpdated(from, to) {
+-      if (from.__x) { Alpine.clone(from.__x, to) }
++    onBeforeElUpdated(from, to){
++      if(from._x_dataStack){ Alpine.clone(from, to) }</code></pre><p><strong>参考させていただいた資料</strong></p><ul><li><a href="https://hexdocs.pm/phoenix_live_view/js-interop.html#client-hooks-via-phx-hook">https://hexdocs.pm/phoenix_live_view/js-interop.html#client-hooks-via-phx-hook</a></li><li><a href="https://elixirforum.com/t/a-simple-example-of-alpine-js-code-is-not-working-properly-in-phoenix-1-6-liveview/44341">https://elixirforum.com/t/a-simple-example-of-alpine-js-code-is-not-working-properly-in-phoenix-1-6-liveview/44341</a></li></ul>
         </div>
       </div>
     </article>

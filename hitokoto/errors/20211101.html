@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<title>`temporary_assigns`でappend/prepend | にむかひて</title>
+<title>Client quit with exit code 127 | にむかひて</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="../../css/whole.css" />
 <link rel="stylesheet" href="part.css" />
@@ -15,21 +15,21 @@
 <main class="w-full mb-6">
   <section class="bg-blue-400 pt-8 pb-6">
     <div class="max-w-4xl lg:mx-auto mx-4">
-      <h2 class="text-5xl text-white font-bold"> `temporary_assigns`でappend/prepend </h2>
+      <h2 class="text-5xl text-white font-bold"> Client quit with exit code 127 </h2>
       <div class="flex justify-between pt-4">
         <p class="text-md text-white">
-          <span id="month">2022年2月</span>
+          <span id="month">2021年11月</span>
           <span class="ml-2">
           <a href="../../index.html" class="underline">トップ</a>
  &gt; <a href="../index.html" class="underline">ひとこと</a>
- &gt; <a href="index.html" id="genre" class="underline">調査したことの記録</a>
+ &gt; <a href="index.html" id="genre" class="underline">エラーの記録</a>
 
           </span>
           <br />
-          <span id="tag">#Elixir #Phoenix</span>
+          <span id="tag">#Elixir #Elixirls</span>
         </p>
         <p>
-          <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank" class="twitter-share-button" data-show-count="false" data-text="`temporary_assigns`でappend/prepend" data-url="https://track.tsukinolab.jp//hitokoto/searched/2022022101.html">Tweet</a>
+          <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank" class="twitter-share-button" data-show-count="false" data-text="Client quit with exit code 127" data-url="https://track.tsukinolab.jp/hitokoto/errors/20211101.html">Tweet</a>
           <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
         </p>
       </div>
@@ -40,7 +40,16 @@
     <article class="relative flex justify-center items-center z-10">
       <div class="w-full max-w-4xl lg:mx-auto bg-white shadow-xl px-8 py-12 mt-4">
         <div class="md-content">
-        <p><code class="inline">temporary_assigns</code>でスクロールでページ送りしつつ、新しいものが追加されたときは一番上に表示したい。</p><p><code class="inline">phx-update=&quot;append&quot;</code> / <code class="inline">phx-update=&quot;prepend&quot;</code> は切り替えられるのか？</p><p><strong>結論（実装例）</strong></p><ul><li>切り替えられるらしい。そしてそれで良い模様</li></ul><p><strong>参考にさせていただいた資料</strong></p><ul><li><a href="https://elixirforum.com/t/how-to-implement-conditional-phx-update-append-or-replace-with-phoenix-liveview/28737/8">https://elixirforum.com/t/how-to-implement-conditional-phx-update-append-or-replace-with-phoenix-liveview/28737/8</a></li></ul>
+        <pre><code>Client 1 quit with exit code 127 and signal 0</code></pre><ul><li>elixirlsのcmd設定で、language_server.sh のパス解決が必要<ul><li>自環境では <code class="inline">$HOME/.local/share/nvim/lspinstall/elixir/elixir-ls/language_server.sh</code> だった</li></ul></li></ul><pre><code>require&#39;lspconfig&#39;.elixirls.setup{
+  cmd = { &quot;/home/nvim/.local/share/nvim/lspinstall/elixir/elixir-ls/language_server.sh&quot; },
+  capabilities = ~,
+  on_attach = ~,
+  settings = {
+    elixirLS = {
+      dialyzerEnabled = false,
+    }
+  }
+}</code></pre><hr class="thin" /><pre><code>Client 2 quit with exit code 127 and signal 0</code></pre><ul><li>ログをみる (<code class="inline">$HOME/.cache/nvim/lsp.log</code>)<ul><li>そもそもelixirにパスが通っていない様だった</li><li>// Language Serverが使用するelixir実行環境が必要</li></ul></li></ul>
         </div>
       </div>
     </article>

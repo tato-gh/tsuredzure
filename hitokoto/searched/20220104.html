@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<title>does not implement the Access behaviour | にむかひて</title>
+<title>doctestでヒアドキュメントを使うには？ | にむかひて</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="../../css/whole.css" />
 <link rel="stylesheet" href="part.css" />
@@ -15,21 +15,21 @@
 <main class="w-full mb-6">
   <section class="bg-blue-400 pt-8 pb-6">
     <div class="max-w-4xl lg:mx-auto mx-4">
-      <h2 class="text-5xl text-white font-bold"> does not implement the Access behaviour </h2>
+      <h2 class="text-5xl text-white font-bold"> doctestでヒアドキュメントを使うには？ </h2>
       <div class="flex justify-between pt-4">
         <p class="text-md text-white">
-          <span id="month">2021年9月</span>
+          <span id="month">2022年1月</span>
           <span class="ml-2">
           <a href="../../index.html" class="underline">トップ</a>
  &gt; <a href="../index.html" class="underline">ひとこと</a>
- &gt; <a href="index.html" id="genre" class="underline">エラーの記録</a>
+ &gt; <a href="index.html" id="genre" class="underline">調査したことの記録</a>
 
           </span>
           <br />
-          <span id="tag">#Elixir #Ecto</span>
+          <span id="tag">#Elixir</span>
         </p>
         <p>
-          <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank" class="twitter-share-button" data-show-count="false" data-text="does not implement the Access behaviour" data-url="https://track.tsukinolab.jp//hitokoto/errors/2021091201.html">Tweet</a>
+          <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank" class="twitter-share-button" data-show-count="false" data-text="doctestでヒアドキュメントを使うには？" data-url="https://track.tsukinolab.jp/hitokoto/searched/20220104.html">Tweet</a>
           <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
         </p>
       </div>
@@ -40,7 +40,17 @@
     <article class="relative flex justify-center items-center z-10">
       <div class="w-full max-w-4xl lg:mx-auto bg-white shadow-xl px-8 py-12 mt-4">
         <div class="md-content">
-        <pre><code>does not implement the Access behaviour</code></pre><ul><li><code class="inline">use Ecto.Schema</code> のstructに対する<code class="inline">struct[key]</code>で発生</li><li>…?</li><li>=&gt; <code class="inline">Map.fetch!</code>等を使用して一応の解決</li></ul>
+        <p>マークダウンの変換みたいなテストを書く際に、<code class="inline">iex&gt; conv(&quot;&quot;&quot;~&quot;&quot;&quot;)</code> みたいなことがしたい</p><p><strong>結論</strong></p><p>エスケープすればいい。<code class="inline">iex&gt;</code> を全ての行につける必要がある点だけ注意する</p><pre><code>## Examples
+
+  iex&gt; \&quot;\&quot;\&quot;
+  iex&gt; test
+  iex&gt; \&quot;\&quot;\&quot;
+  &quot;test\\n&quot;
+
+  iex&gt; String.trim(\&quot;\&quot;\&quot;
+  iex&gt; test
+  iex&gt; \&quot;\&quot;\&quot;)
+  &quot;test&quot;</code></pre>
         </div>
       </div>
     </article>

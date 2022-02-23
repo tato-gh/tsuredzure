@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<title>doctestでヒアドキュメントを使うには？ | にむかひて</title>
+<title>.beam failed :badfile | にむかひて</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="../../css/whole.css" />
 <link rel="stylesheet" href="part.css" />
@@ -15,21 +15,21 @@
 <main class="w-full mb-6">
   <section class="bg-blue-400 pt-8 pb-6">
     <div class="max-w-4xl lg:mx-auto mx-4">
-      <h2 class="text-5xl text-white font-bold"> doctestでヒアドキュメントを使うには？ </h2>
+      <h2 class="text-5xl text-white font-bold"> .beam failed :badfile </h2>
       <div class="flex justify-between pt-4">
         <p class="text-md text-white">
-          <span id="month">2022年1月</span>
+          <span id="month">2021年</span>
           <span class="ml-2">
           <a href="../../index.html" class="underline">トップ</a>
  &gt; <a href="../index.html" class="underline">ひとこと</a>
- &gt; <a href="index.html" id="genre" class="underline">調査したことの記録</a>
+ &gt; <a href="index.html" id="genre" class="underline">エラーの記録</a>
 
           </span>
           <br />
-          <span id="tag">#Elixir</span>
+          <span id="tag">#Elixir #Phoenix</span>
         </p>
         <p>
-          <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank" class="twitter-share-button" data-show-count="false" data-text="doctestでヒアドキュメントを使うには？" data-url="https://track.tsukinolab.jp//hitokoto/searched/2022012602.html">Tweet</a>
+          <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank" class="twitter-share-button" data-show-count="false" data-text=".beam failed :badfile" data-url="https://track.tsukinolab.jp/hitokoto/errors/20210001.html">Tweet</a>
           <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
         </p>
       </div>
@@ -40,17 +40,7 @@
     <article class="relative flex justify-center items-center z-10">
       <div class="w-full max-w-4xl lg:mx-auto bg-white shadow-xl px-8 py-12 mt-4">
         <div class="md-content">
-        <p>マークダウンの変換みたいなテストを書く際に、<code class="inline">iex&gt; conv(&quot;&quot;&quot;~&quot;&quot;&quot;)</code> みたいなことがしたい</p><p><strong>結論</strong></p><p>エスケープすればいい。<code class="inline">iex&gt;</code> を全ての行につける必要がある点だけ注意する</p><pre><code>## Examples
-
-  iex&gt; \&quot;\&quot;\&quot;
-  iex&gt; test
-  iex&gt; \&quot;\&quot;\&quot;
-  &quot;test\\n&quot;
-
-  iex&gt; String.trim(\&quot;\&quot;\&quot;
-  iex&gt; test
-  iex&gt; \&quot;\&quot;\&quot;)
-  &quot;test&quot;</code></pre>
+        <pre><code class="elixir">Loading of 略.beam failed: :badfile</code></pre><hr class="thin" /><ul><li>マシンが落ちた後から急に発生した</li><li><code class="inline">_build/</code> フォルダを一度削除したところ解消した</li></ul>
         </div>
       </div>
     </article>
