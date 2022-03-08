@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<title>`def mount`の二度実行について | にむかひて</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="../../css/whole.css" />
+<link rel="stylesheet" href="part.css" />
+</head>
+
+<body class="min-h-screen bg-gray-100">
+<header class="sticky top-0 w-full bg-gray-600 border-t-2 border-blue-400 text-white text-center py-2 z-50">
+  <h1 class="w-48 text-2xl"> <a href="../../index.html">にむかひて</a> </h1>
+</header>
+
+<main class="w-full mb-6">
+  <section class="bg-blue-400 pt-8 pb-6">
+    <div class="max-w-4xl lg:mx-auto mx-4">
+      <h2 class="text-5xl text-white font-bold"> `def mount`の二度実行について </h2>
+      <div class="flex justify-between pt-4">
+        <p class="text-md text-white">
+          <span id="month">2022年3月</span>
+          <span class="ml-2">
+          <a href="../../index.html" class="underline">トップ</a>
+ &gt; <a href="../index.html" class="underline">ひとこと</a>
+ &gt; <a href="index.html" id="genre" class="underline">調査したことの記録</a>
+
+          </span>
+          <br />
+          <span id="tag">#Elixir #Phoenix #LiveView</span>
+        </p>
+        <p>
+          <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank" class="twitter-share-button" data-show-count="false" data-text="`def mount`の二度実行について" data-url="https://track.tsukinolab.jp/hitokoto/searched/20220302.html">Tweet</a>
+          <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </p>
+      </div>
+    </div>
+  </section>
+  <section class="relative bg-gray-100 text-gray-600">
+    <div class="absolute top-0 left-0 w-full h-16 bg-blue-400 z-0"></div>
+    <article class="relative flex justify-center items-center z-10">
+      <div class="w-full max-w-4xl lg:mx-auto bg-white shadow-xl px-8 py-12 mt-4">
+        <div class="md-content">
+        <ul><li>LiveViewを使ってるページでmountが二回走るときがある</li><li>ランダムでリソースを出しているページでは表示内容がすすっと切り替わる<ul><li><code class="inline">def mount</code>でリソースをランダムでロードしているようなページ</li></ul></li><li>二回走るのなんだろう、と気になってたけど実際に問題になるケースに直面した</li><li>さて、なんだろう？</li></ul><p><strong>結論</strong></p><ul><li>LiveViewのライフサイクル的に自然なこと</li><li>初回とJavaScriptロード後の2回実行される</li><li><code class="inline">live_redirect</code> 等で遷移したときはJSロード済みなので、1回しか実行されない</li><li><code class="inline">connected?(socket)</code> で判定できる</li></ul><p>なので、</p><ul><li>ランダムに切り替わるようなケースでは、<code class="inline">connected?</code>のときのみにする<ul><li>他にいい方法があるような気もしつつ…</li></ul></li><li>負荷の大きいロードを行う場合は<code class="inline">connected?()</code>のときのみにする（検討）<ul><li>そこまで気にする必要はないかもしれない</li></ul></li></ul><p>また、</p><ul><li>LiveViewなアプリケーション内での移動は<code class="inline">live_redirect to:</code>にやはり統一する<ul><li>癖で <code class="inline">link to:</code>にしちゃっていないか</li><li>ただし、いずれにしてもユーザーでリロードされる可能性もあることも留意する</li></ul></li><li><code class="inline">Phoenix.PubSub.subscribe</code> なども <code class="inline">connected?()</code> 判定後に（一度だけ）実行する</li><li>/ 例によって、公式にライフサイクルとして、きちんと書いてある</li></ul><p><strong>参考にさせていただいた資料</strong></p><ul><li><a href="https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html#module-life-cycle">https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html#module-life-cycle</a></li><li><a href="https://elixirforum.com/t/liveview-calls-mount-two-times/30519/3">https://elixirforum.com/t/liveview-calls-mount-two-times/30519/3</a></li></ul>
+        </div>
+      </div>
+    </article>
+    <div class="max-w-4xl lg:mx-auto bg-white rounded mt-12">
+
+  <div class="p-4">
+    <h2 class="text-sm font-bold text-gray-600">サイト内検索</h2>
+    <script async src="https://cse.google.com/cse.js?cx=46c892229d3371f89"></script>
+    <div class="gcse-search"></div>
+  </div>
+</div>
+
+  </section>
+</main>
+<footer class="w-full h-28 bg-gray-600 text-center py-2">
+  <div class="w-full h-full flex justify-center items-center">
+    <p class="text-gray-300">
+      &copy; にむかひて<br />
+      <a href="https://forms.office.com/r/Vc1YRFgGAw" target="_blank"> お問い合わせはこちら </a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>

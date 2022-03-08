@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<title>`temporary_assigns`でappend/prepend | にむかひて</title>
+<title>`temporary_assigns`のリセット | にむかひて</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="../../css/whole.css" />
 <link rel="stylesheet" href="part.css" />
@@ -15,10 +15,10 @@
 <main class="w-full mb-6">
   <section class="bg-blue-400 pt-8 pb-6">
     <div class="max-w-4xl lg:mx-auto mx-4">
-      <h2 class="text-5xl text-white font-bold"> `temporary_assigns`でappend/prepend </h2>
+      <h2 class="text-5xl text-white font-bold"> `temporary_assigns`のリセット </h2>
       <div class="flex justify-between pt-4">
         <p class="text-md text-white">
-          <span id="month">2022年2月</span>
+          <span id="month">2022年3月</span>
           <span class="ml-2">
           <a href="../../index.html" class="underline">トップ</a>
  &gt; <a href="../index.html" class="underline">ひとこと</a>
@@ -29,7 +29,7 @@
           <span id="tag">#Elixir #Phoenix</span>
         </p>
         <p>
-          <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank" class="twitter-share-button" data-show-count="false" data-text="`temporary_assigns`でappend/prepend" data-url="https://track.tsukinolab.jp/hitokoto/searched/20220204.html">Tweet</a>
+          <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank" class="twitter-share-button" data-show-count="false" data-text="`temporary_assigns`のリセット" data-url="https://track.tsukinolab.jp/hitokoto/searched/20220301.html">Tweet</a>
           <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
         </p>
       </div>
@@ -40,7 +40,7 @@
     <article class="relative flex justify-center items-center z-10">
       <div class="w-full max-w-4xl lg:mx-auto bg-white shadow-xl px-8 py-12 mt-4">
         <div class="md-content">
-        <p><code class="inline">temporary_assigns</code>でスクロールでページ送りしつつ、新しいものが追加されたときは一番上に表示したい。</p><p><code class="inline">phx-update=&quot;append&quot;</code> / <code class="inline">phx-update=&quot;prepend&quot;</code> は切り替えられるのか？</p><p><strong>結論</strong></p><ul><li>切り替えられるらしい。そしてそれで良い模様</li></ul><p><strong>参考にさせていただいた資料</strong></p><ul><li><a href="https://elixirforum.com/t/how-to-implement-conditional-phx-update-append-or-replace-with-phoenix-liveview/28737/8">https://elixirforum.com/t/how-to-implement-conditional-phx-update-append-or-replace-with-phoenix-liveview/28737/8</a></li></ul>
+        <p><code class="inline">temporary_assigns</code>を使っている一覧を検索条件変更に伴ってリセットしたい</p><ul><li>個別のときはDOMから消していた</li></ul><p><strong>結論</strong></p><ul><li>全体をくくっているdiv要素のidを変える（消す）</li><li>つまり<code class="inline">&lt;div id={&quot;collection-#{@counter}&quot;} phx-update=&quot;append&quot;&gt;</code> のようにして、インクリメントする<ul><li>これによって丸っと消す</li><li>参考リンク参照</li></ul></li></ul><p><strong>参考にさせていただいた資料</strong></p><ul><li><a href="https://elixirforum.com/t/how-can-i-reset-contents-of-temporary-assigns-assigns/30553/5">https://elixirforum.com/t/how-can-i-reset-contents-of-temporary-assigns-assigns/30553/5</a></li></ul>
         </div>
       </div>
     </article>
