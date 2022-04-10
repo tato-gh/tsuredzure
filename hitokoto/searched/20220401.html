@@ -29,7 +29,7 @@
           <span id="tag">#Elixir #Phoenix #Ecto</span>
         </p>
         <p>
-          <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank" class="twitter-share-button" data-show-count="false" data-text="ectoでjoin重複を避けるための名前付け" data-url="https://track.tsukinolab.jp/hitokoto/searched/20220401.html">Tweet</a>
+          <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank" class="twitter-share-button" data-show-count="false" data-text="ectoでjoin重複を避けるための名前付け" data-url="https://tsuredzure.pages.dev/hitokoto/searched/20220401.html">Tweet</a>
           <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
         </p>
       </div>
@@ -64,9 +64,7 @@ defmodule Hoge do
       join: u in assoc(q, :user),
       where: u.code == ^code
   end
-end</code></pre><p>のような実装をして、<code class="inline">user_name</code>と<code class="inline">user_code</code>の両方があるとjoinが重複する。</p><ul><li>Railsのスコープチェインライクのイメージで作っていて、ふとSQLをみると重複していた</li><li>そもそも実装の設計が悪いかもしれない</li><li>つまり、そのコンテキストに沿ったきちんと専用の関数を用意すべきかもしれない</li></ul><p><strong>結論</strong></p><ul><li>named_binding を使用して、かつ、そのチェックをすると重複回避ができる</li><li>ただし、名前付けを統一する必要がある</li><li>つまるところ、結合度があがるので、少なくとも同じモジュール内での使用にとどめるべき</li></ul><pre><code>  def query_user_name(query, nil), do: query
-
-  def query_user_name(query, name) do
+end</code></pre><p>のような実装をして、<code class="inline">user_name</code>と<code class="inline">user_code</code>の両方があるとjoinが重複する。</p><ul><li>Railsのスコープチェインライクのイメージで作っていて、ふとSQLをみると重複していた</li><li>そもそも実装の設計が悪いかもしれない</li><li>つまり、そのコンテキストに沿ったきちんと専用の関数を用意すべきかもしれない</li></ul><p><strong>結論</strong></p><ul><li>named_binding を使用して、かつ、そのチェックをすると重複回避ができる</li><li>ただし、名前付けを統一する必要がある</li><li>つまるところ、結合度があがるので、少なくとも同じモジュール内での使用にとどめるべき</li></ul><pre><code>  def query_user_name(query, name) do
     if has_named_binding?(query, :user) do
       from q in query,
         where: as(:user).name == ^name
@@ -76,8 +74,6 @@ end</code></pre><p>のような実装をして、<code class="inline">user_name<
         where: u.name == ^name
     end
   end
-
-  def query_user_code(query, nil), do: query
 
   def query_user_name(query, code) do
     if has_named_binding?(query, :user) do
