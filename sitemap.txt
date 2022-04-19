@@ -1,4 +1,4 @@
-https://track.tsukinolab.jp/index.html
-https://track.tsukinolab.jp/hitokoto/index.html
-https://track.tsukinolab.jp/hitokoto/errors/index.html
-https://track.tsukinolab.jp/hitokoto/searched/index.html
+https://tsuredzure.pages.dev/index.html
+https://tsuredzure.pages.dev/hitokoto/index.html
+https://tsuredzure.pages.dev/hitokoto/errors/index.html
+https://tsuredzure.pages.dev/hitokoto/searched/index.html
