@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<title>Phoenixでtrait | にむかひて</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="../../css/whole.css" />
+<link rel="stylesheet" href="part.css" />
+</head>
+
+<body class="min-h-screen bg-gray-100">
+<header class="sticky top-0 w-full bg-gray-600 border-t-2 border-blue-400 text-white text-center py-2 z-50">
+  <h1 class="w-48 text-2xl"> <a href="../../index.html">にむかひて</a> </h1>
+</header>
+
+<main class="w-full mb-6">
+  <section class="bg-blue-400 pt-8 pb-6">
+    <div class="max-w-4xl lg:mx-auto mx-4">
+      <h2 class="text-5xl text-white font-bold"> Phoenixでtrait </h2>
+      <div class="flex justify-between pt-4">
+        <p class="text-md text-white">
+          <span id="month">2022年4月</span>
+          <span class="ml-2">
+          <a href="../../index.html" class="underline">トップ</a>
+ &gt; <a href="../index.html" class="underline">ひとこと</a>
+ &gt; <a href="index.html" id="genre" class="underline">調査したことの記録</a>
+
+          </span>
+          <br />
+          <span id="tag">#Elixir #Phoenix #trait</span>
+        </p>
+        <p>
+          <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank" class="twitter-share-button" data-show-count="false" data-text="Phoenixでtrait" data-url="https://tsuredzure.pages.dev/hitokoto/searched/20220403.html">Tweet</a>
+          <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </p>
+      </div>
+    </div>
+  </section>
+  <section class="relative bg-gray-100 text-gray-600">
+    <div class="absolute top-0 left-0 w-full h-16 bg-blue-400 z-0"></div>
+    <article class="relative flex justify-center items-center z-10">
+      <div class="w-full max-w-4xl lg:mx-auto bg-white shadow-xl px-8 py-12 mt-4">
+        <div class="md-content">
+        <p>テスト時に利用する<code class="inline">fixture()</code>でいくつかのパターンのデータを定義したい</p><ul><li>RailsにおけるFactoryBotのTraitsのイメージ</li><li>どこかにありそうだけど、手元でやってみる</li></ul><p><strong>利用イメージ</strong></p><ul><li><code class="inline">user_fixture([:japanese])</code></li><li><code class="inline">user_fixture(email: &quot;test@example.com&quot;)</code></li><li><code class="inline">user_fixture([:japanese, email: &quot;test@example.com&quot;])</code></li><li><code class="inline">user_fixture([:japanese, :man, email: &quot;test@example.com&quot;])</code></li></ul><p><strong>実装</strong></p><p>test/support/data_trait.ex</p><ul><li>各fixtureモジュールで<code class="inline">use</code>できるようにモジュールを定義</li><li>引数を再帰的に処理する<ul><li>Atomなら<code class="inline">_trait</code>に引き渡す。このatomに相当する処理を各fixtureモジュール側に実装する</li><li>List(<code class="inline">[{:email, &quot;test@example.com}]</code>)なら、マージしてしまう</li></ul></li></ul><pre><code>defmodule DataTrait do
+  def trait do
+    quote do
+      def trait(obj, []), do: obj
+
+      def trait(obj, [head | tail]) when is_atom(head) do
+        _trait(obj, head) |&gt; trait(tail)
+      end
+
+      def trait(obj, list) do
+        obj
+        |&gt; Map.merge(Map.new(list))
+      end
+
+      defp _trait(obj, :touch), do: obj
+    end
+  end
+
+  defmacro __using__([]) do
+    apply(__MODULE__, :trait, [])
+  end
+end</code></pre><p>test/support/fixtures/user_fixtures.ex</p><ul><li>対応する<code class="inline">_trait()</code>を実装する</li></ul><pre><code>defmodule UsersFixtures do
+  use DataTrait
+
+  def user_fixture(traits \\ []) do
+    %User{}
+    |&gt; trait(traits)
+    |&gt; Repo.insert!()
+  end
+
+  defp _trait(user, :japanese),
+    do: Map.put(user, :country, &quot;japanese&quot;)
+
+  defp _trait(user, :man),
+    do: Map.put(user, :sex, &quot;man&quot;)
+end</code></pre><p><strong>結論</strong></p><ul><li>複雑なものだと辛そうではあるが、基本的なパターンなら問題なさそう</li><li>複雑な準備は <code class="inline">user_fixture()</code> ではなく <code class="inline">user_hoge_fixture()</code> みたいにするからいいかな、たぶん…</li></ul>
+        </div>
+      </div>
+    </article>
+    <div class="max-w-4xl lg:mx-auto bg-white rounded mt-12">
+
+  <div class="p-4">
+    <h2 class="text-sm font-bold text-gray-600">サイト内検索</h2>
+    <script async src="https://cse.google.com/cse.js?cx=46c892229d3371f89"></script>
+    <div class="gcse-search"></div>
+  </div>
+</div>
+
+  </section>
+</main>
+<footer class="w-full h-28 bg-gray-600 text-center py-2">
+  <div class="w-full h-full flex justify-center items-center">
+    <p class="text-gray-300">
+      &copy; にむかひて<br />
+      <a href="https://forms.office.com/r/PRgKX4Hv7D" target="_blank"> お問い合わせはこちら </a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>

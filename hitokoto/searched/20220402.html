@@ -54,7 +54,7 @@ end)
 ids
 |&gt; Flow.from_enumerable()
 |&gt; Flow.map(&amp; :ets.lookup(table, &amp;1))
-|&gt; Enum.to_list()</code></pre><p><strong>結果</strong></p><ul><li>15万件では特に Ecto:ETS=2:1 くらいの時間差だった。ETSが速い</li><li>今回は一回きりのアクセスで、<code class="inline">:ets.insert_new()</code> も計測に含めており、そちらに時間がかかっている面がある<ul><li><code class="inline">:ets.lookup</code> だけならば、4:1 くらいになった</li><li>余談で、<code class="inline">insert_new()</code>をFlowでしてみたときに遅くなったのでひょっとすると何か変かもしれない</li></ul></li><li>用途によっては、ETSを検討する価値がありそう<ul><li>余談で <code class="inline">:ets.match()</code> は遅かった</li></ul></li></ul>
+|&gt; Enum.to_list()</code></pre><p><strong>結果</strong></p><ul><li>15万件では特に Ecto:ETS=2:1 くらいの時間差だった。ETSが速い</li><li>今回は一回きりのアクセスで、<code class="inline">:ets.insert_new()</code> も計測に含めており、そちらに時間がかかっている面がある<ul><li><code class="inline">:ets.lookup</code> だけならば、4:1 くらいになった</li><li>余談で、<code class="inline">insert_new()</code>をFlowでしてみたときに遅くなったのでひょっとすると何か変かもしれない<ul><li>追記：<code class="inline">write_concurrency</code> がデフォルト<code class="inline">false</code>らしい</li><li>では<code class="inline">true</code>にすればいいかというと、、、?下記によると簡単な話ではなさそう<ul><li><a href="https://qiita.com/sile/items/45b72ab5d02cd93c0a10">ETSの(read|write)_concurrencyオプションについて調べてみた</a></li></ul></li></ul></li></ul></li><li>用途によっては、ETSを検討する価値がありそう<ul><li>余談で <code class="inline">:ets.match()</code> は遅かった</li></ul></li></ul>
         </div>
       </div>
     </article>
