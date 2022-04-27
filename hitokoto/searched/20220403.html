@@ -40,16 +40,16 @@
     <article class="relative flex justify-center items-center z-10">
       <div class="w-full max-w-4xl lg:mx-auto bg-white shadow-xl px-8 py-12 mt-4">
         <div class="md-content">
-        <p>テスト時に利用する<code class="inline">fixture()</code>でいくつかのパターンのデータを定義したい</p><ul><li>RailsにおけるFactoryBotのTraitsのイメージ</li><li>どこかにありそうだけど、手元でやってみる</li></ul><p><strong>利用イメージ</strong></p><ul><li><code class="inline">user_fixture([:japanese])</code></li><li><code class="inline">user_fixture(email: &quot;test@example.com&quot;)</code></li><li><code class="inline">user_fixture([:japanese, email: &quot;test@example.com&quot;])</code></li><li><code class="inline">user_fixture([:japanese, :man, email: &quot;test@example.com&quot;])</code></li></ul><p><strong>実装</strong></p><p>test/support/data_trait.ex</p><ul><li>各fixtureモジュールで<code class="inline">use</code>できるようにモジュールを定義</li><li>引数を再帰的に処理する<ul><li>Atomなら<code class="inline">_trait</code>に引き渡す。このatomに相当する処理を各fixtureモジュール側に実装する</li><li>List(<code class="inline">[{:email, &quot;test@example.com}]</code>)なら、マージしてしまう</li></ul></li></ul><pre><code>defmodule DataTrait do
+        <p>テスト時に利用する<code class="inline">fixture()</code>でいくつかのパターンのデータを定義したい</p><ul><li>RailsにおけるFactoryBotのTraitsのイメージ</li><li>どこかにありそうだけど、手元でやってみる</li></ul><p><strong>利用イメージ</strong></p><ul><li><code class="inline">user_fixture([:japanese])</code></li><li><code class="inline">user_fixture(email: &quot;test@example.com&quot;)</code></li><li><code class="inline">user_fixture([:japanese, email: &quot;test@example.com&quot;])</code></li><li><code class="inline">user_fixture([:japanese, :male, email: &quot;test@example.com&quot;])</code></li></ul><p><strong>実装</strong></p><p>test/support/data_trait.ex</p><ul><li>各fixtureモジュールで<code class="inline">use</code>できるようにモジュールを定義</li><li>引数を再帰的に処理する<ul><li>Atomなら<code class="inline">_trait</code>に引き渡す。このatomに相当する処理を各fixtureモジュール側に実装する</li><li>List(<code class="inline">[{:email, &quot;test@example.com}]</code>)なら、マージしてしまう</li></ul></li></ul><pre><code>defmodule DataTrait do
   def trait do
     quote do
-      def trait(obj, []), do: obj
+      defp trait(obj, []), do: obj
 
-      def trait(obj, [head | tail]) when is_atom(head) do
+      defp trait(obj, [head | tail]) when is_atom(head) do
         _trait(obj, head) |&gt; trait(tail)
       end
 
-      def trait(obj, list) do
+      defp trait(obj, list) do
         obj
         |&gt; Map.merge(Map.new(list))
       end
@@ -71,11 +71,11 @@ end</code></pre><p>test/support/fixtures/user_fixtures.ex</p><ul><li>対応す�
   end
 
   defp _trait(user, :japanese),
-    do: Map.put(user, :country, &quot;japanese&quot;)
+    do: Map.put(user, :language, &quot;japanese&quot;)
 
-  defp _trait(user, :man),
-    do: Map.put(user, :sex, &quot;man&quot;)
-end</code></pre><p><strong>結論</strong></p><ul><li>複雑なものだと辛そうではあるが、基本的なパターンなら問題なさそう</li><li>複雑な準備は <code class="inline">user_fixture()</code> ではなく <code class="inline">user_hoge_fixture()</code> みたいにするからいいかな、たぶん…</li></ul>
+  defp _trait(user, :male),
+    do: Map.put(user, :sex, &quot;male&quot;)
+end</code></pre><p><strong>結論</strong></p><ul><li>複雑なものだと辛そうではあるが、基本的なパターンなら問題なさそう（かな）</li><li>複雑な準備は <code class="inline">user_fixture()</code> ではなく <code class="inline">user_hoge_fixture()</code> みたいにするからいいかな、たぶん…</li></ul>
         </div>
       </div>
     </article>
