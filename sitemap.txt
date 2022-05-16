@@ -1,4 +1,4 @@
-https://tsuredzure.pages.dev/index.html
-https://tsuredzure.pages.dev/hitokoto/index.html
-https://tsuredzure.pages.dev/hitokoto/errors/index.html
-https://tsuredzure.pages.dev/hitokoto/searched/index.html
+https://tsuredzure.pages.dev/
+https://tsuredzure.pages.dev/hitokoto/
+https://tsuredzure.pages.dev/hitokoto/errors/
+https://tsuredzure.pages.dev/hitokoto/searched/

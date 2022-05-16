@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<title>フォルダ単位で暗号化したい. e.g.Github | にむかひて</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="../../css/whole.css" />
+<link rel="stylesheet" href="part.css" />
+</head>
+
+<body class="min-h-screen bg-gray-100">
+<header class="sticky top-0 w-full bg-gray-600 border-t-2 border-blue-400 text-white text-center py-2 z-50">
+  <h1 class="w-48 text-2xl"> <a href="../../index.html">にむかひて</a> </h1>
+</header>
+
+<main class="w-full mb-6">
+  <section class="bg-blue-400 pt-8 pb-6">
+    <div class="max-w-4xl lg:mx-auto mx-4">
+      <h2 class="text-5xl text-white font-bold"> フォルダ単位で暗号化したい. e.g.Github </h2>
+      <div class="flex justify-between pt-4">
+        <p class="text-md text-white">
+          <span id="month">2021年3月</span>
+          <span class="ml-2">
+          <a href="../../index.html" class="underline">トップ</a>
+ &gt; <a href="../index.html" class="underline">ひとこと</a>
+ &gt; <a href="index.html" id="genre" class="underline">調査したことの記録</a>
+
+          </span>
+          <br />
+          <span id="tag">#Linux #Crypt</span>
+        </p>
+        <p>
+          <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank" class="twitter-share-button" data-show-count="false" data-text="フォルダ単位で暗号化したい. e.g.Github" data-url="https://tsuredzure.pages.dev/hitokoto/searched/20210302.html">Tweet</a>
+          <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </p>
+      </div>
+    </div>
+  </section>
+  <section class="relative bg-gray-100 text-gray-600">
+    <div class="absolute top-0 left-0 w-full h-16 bg-blue-400 z-0"></div>
+    <article class="relative flex justify-center items-center z-10">
+      <div class="w-full max-w-4xl lg:mx-auto bg-white shadow-xl px-8 py-12 mt-4">
+        <div class="md-content">
+        <ul><li>フォルダ単位で暗号化したい</li><li>プライベートリポジトリだけど暗号化もしておきたい</li></ul><p><strong>結論</strong></p><p>encfs よりは今は gocryptfs を使用する</p><ul><li><code class="inline">gocryptfs.conf</code> はアップロードしても問題はない<ul><li>ただし、万全を期すならばしないのが一番いい</li><li>アップロードした場合 =&gt; ソルトが露出するからパスワードだけが砦</li><li>アップロードしない場合 =&gt; ソルトもわからないから推測しようがない</li></ul></li><li>ファイル名も適当なものに変わるから.gitignoreができない</li><li>対象フォルダをそのままdockerでマウント(-v)するなら<code class="inline">-allow_other</code>が必要かもしれない</li><li>…専用のクラウドサービスを使えばいいかもしれない</li></ul><p><strong>おまけ</strong></p><ul><li>ファイル単位でするには簡単にはopensslを使うこともできる<ul><li>ファイル暗号(<code class="inline">enc -e</code>)と複合(<code class="inline">enc -d</code>)</li><li><code class="inline">openssl enc -e -aes256 -in hoge.txt -out hoge.txt.enc</code></li><li>パスフレーズにファイルを指定可能</li></ul></li></ul><p><strong>参考にさせていただきました</strong></p><ul><li><a href="https://github.com/rfjakob/gocryptfs/issues/50">gocryptfs.conf in cloud</a></li></ul>
+        </div>
+      </div>
+    </article>
+    <div class="max-w-4xl lg:mx-auto bg-white rounded mt-12">
+
+  <div class="p-4">
+    <h2 class="text-sm font-bold text-gray-600">サイト内検索</h2>
+    <script async src="https://cse.google.com/cse.js?cx=46c892229d3371f89"></script>
+    <div class="gcse-search"></div>
+  </div>
+</div>
+
+  </section>
+</main>
+<footer class="w-full h-28 bg-gray-600 text-center py-2">
+  <div class="w-full h-full flex justify-center items-center">
+    <p class="text-gray-300">
+      &copy; にむかひて<br />
+      <a href="https://forms.office.com/r/PRgKX4Hv7D" target="_blank"> お問い合わせはこちら </a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<title>erlport, `:python.call`が遅い | にむかひて</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="../../css/whole.css" />
+<link rel="stylesheet" href="part.css" />
+</head>
+
+<body class="min-h-screen bg-gray-100">
+<header class="sticky top-0 w-full bg-gray-600 border-t-2 border-blue-400 text-white text-center py-2 z-50">
+  <h1 class="w-48 text-2xl"> <a href="../../index.html">にむかひて</a> </h1>
+</header>
+
+<main class="w-full mb-6">
+  <section class="bg-blue-400 pt-8 pb-6">
+    <div class="max-w-4xl lg:mx-auto mx-4">
+      <h2 class="text-5xl text-white font-bold"> erlport, `:python.call`が遅い </h2>
+      <div class="flex justify-between pt-4">
+        <p class="text-md text-white">
+          <span id="month">2021年11月</span>
+          <span class="ml-2">
+          <a href="../../index.html" class="underline">トップ</a>
+ &gt; <a href="../index.html" class="underline">ひとこと</a>
+ &gt; <a href="index.html" id="genre" class="underline">調査したことの記録</a>
+
+          </span>
+          <br />
+          <span id="tag">#Elixir #Erlport</span>
+        </p>
+        <p>
+          <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank" class="twitter-share-button" data-show-count="false" data-text="erlport, `:python.call`が遅い" data-url="https://tsuredzure.pages.dev/hitokoto/searched/20211103.html">Tweet</a>
+          <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </p>
+      </div>
+    </div>
+  </section>
+  <section class="relative bg-gray-100 text-gray-600">
+    <div class="absolute top-0 left-0 w-full h-16 bg-blue-400 z-0"></div>
+    <article class="relative flex justify-center items-center z-10">
+      <div class="w-full max-w-4xl lg:mx-auto bg-white shadow-xl px-8 py-12 mt-4">
+        <div class="md-content">
+        <p>大きなデータを渡すとけっこうな時間がかかっていることがわかった</p><p><strong>結論</strong></p><ul><li>一度JSONにして渡すと早かった。たぶん型変換に時間がかかっているので、一思いにそれぞれの側のライブラリに任せるとよい様子</li></ul><pre><code class="elixir">Jason.encode!(data)</code></pre><pre><code class="python">import json
+json.loads(data_json)</code></pre><p><strong>おまけ</strong></p><ul><li>呼び出しが多くなると毎回 :python.start/:python.stop して時間がかかるため、Agentなりにしてプロセスを取っておく</li><li>python側でNoneとしたいときは、python側で変換するしかなさそう<ul><li><code class="inline">json.loads(json_data)</code> が null を None にしてくれるので、elixir側では “None” のような文字列にしておいて（取り決め）、python側で null に置換する作戦が考えられる</li><li><code class="inline">json_data = json_data.decode().replace(&#39;\&quot;None\&quot;&#39;, &#39;null&#39;)</code></li><li><code class="inline">decode()</code> はelixir側”文字列”を渡すとpython側でbyte型になるので必要</li></ul></li></ul>
+        </div>
+      </div>
+    </article>
+    <div class="max-w-4xl lg:mx-auto bg-white rounded mt-12">
+
+  <div class="p-4">
+    <h2 class="text-sm font-bold text-gray-600">サイト内検索</h2>
+    <script async src="https://cse.google.com/cse.js?cx=46c892229d3371f89"></script>
+    <div class="gcse-search"></div>
+  </div>
+</div>
+
+  </section>
+</main>
+<footer class="w-full h-28 bg-gray-600 text-center py-2">
+  <div class="w-full h-full flex justify-center items-center">
+    <p class="text-gray-300">
+      &copy; にむかひて<br />
+      <a href="https://forms.office.com/r/PRgKX4Hv7D" target="_blank"> お問い合わせはこちら </a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
