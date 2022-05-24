@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<title>Elixirのスニペット(snippet) | にむかひて</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="../../css/whole.css" />
+<link rel="stylesheet" href="part.css" />
+</head>
+
+<body class="min-h-screen bg-gray-100">
+<header class="sticky top-0 w-full bg-gray-600 border-t-2 border-blue-400 text-white text-center py-2 z-50">
+  <h1 class="w-48 text-2xl"> <a href="../../index.html">にむかひて</a> </h1>
+</header>
+
+<main class="w-full mb-6">
+  <section class="bg-blue-400 pt-8 pb-6">
+    <div class="max-w-4xl lg:mx-auto mx-4">
+      <h2 class="text-5xl text-white font-bold"> Elixirのスニペット(snippet) </h2>
+      <div class="flex justify-between pt-4">
+        <p class="text-md text-white">
+          <span id="month">2022年5月</span>
+          <span class="ml-2">
+          <a href="../../index.html" class="underline">トップ</a>
+ &gt; <a href="../index.html" class="underline">ひとこと</a>
+ &gt; <a href="index.html" id="genre" class="underline">調査したことの記録</a>
+
+          </span>
+          <br />
+          <span id="tag">#Elixir #Vim #Snippet</span>
+        </p>
+        <p>
+          <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank" class="twitter-share-button" data-show-count="false" data-text="Elixirのスニペット(snippet)" data-url="https://tsuredzure.pages.dev/hitokoto/searched/20220501.html">Tweet</a>
+          <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </p>
+      </div>
+    </div>
+  </section>
+  <section class="relative bg-gray-100 text-gray-600">
+    <div class="absolute top-0 left-0 w-full h-16 bg-blue-400 z-0"></div>
+    <article class="relative flex justify-center items-center z-10">
+      <div class="w-full max-w-4xl lg:mx-auto bg-white shadow-xl px-8 py-12 mt-4">
+        <div class="md-content">
+        <ul><li>少し整理/追加したのでごちゃつく前に記録<ul><li><code class="inline">Enum.map()</code> 以外も追加したいような、きりがないような、悩ましいところ</li></ul></li><li>VSnipを使用<ul><li><a href="https://github.com/hrsh7th/vim-vsnip">https://github.com/hrsh7th/vim-vsnip</a></li></ul></li></ul><p><strong>現状</strong></p><p>.vsnip/elixir.json</p><pre><code>{
+  &quot;chain&quot;: {
+    &quot;prefix&quot;: &quot;c&quot;,
+    &quot;body&quot;: [
+      &quot;|&gt; &quot;
+    ]
+  },
+  &quot;def&quot;: {
+    &quot;prefix&quot;: &quot;def&quot;,
+    &quot;body&quot;: [
+      &quot;def $1 do&quot;,
+      &quot;  $0&quot;,
+      &quot;end&quot;
+    ]
+  },
+  &quot;def short&quot;: {
+    &quot;prefix&quot;: &quot;defl&quot;,
+    &quot;body&quot;: [
+      &quot;def $1, do: $2&quot;
+    ]
+  },
+  &quot;defp&quot;: {
+    &quot;prefix&quot;: &quot;defp&quot;,
+    &quot;body&quot;: [
+      &quot;defp $1 do&quot;,
+      &quot;  $0&quot;,
+      &quot;end&quot;
+    ]
+  },
+  &quot;defp short&quot;: {
+    &quot;prefix&quot;: &quot;defpl&quot;,
+    &quot;body&quot;: [
+      &quot;defp $1, do: $2&quot;
+    ]
+  },
+  &quot;defdelegate&quot;: {
+    &quot;prefix&quot;: &quot;defd&quot;,
+    &quot;body&quot;: [
+      &quot;defdelegate $1, to: $2&quot;
+    ]
+  },
+  &quot;defn&quot;: {
+    &quot;prefix&quot;: &quot;defn&quot;,
+    &quot;body&quot;: [
+      &quot;defn $1 do&quot;,
+      &quot;  $0&quot;,
+      &quot;end&quot;
+    ]
+  },
+  &quot;@moduledoc&quot;: {
+    &quot;prefix&quot;: &quot;@mod&quot;,
+    &quot;body&quot;: [
+      &quot;@moduledoc \&quot;\&quot;\&quot;&quot;,
+      &quot;$0&quot;,
+      &quot;\&quot;\&quot;\&quot;&quot;
+    ]
+  },
+  &quot;@doc&quot;: {
+    &quot;prefix&quot;: &quot;@doc&quot;,
+    &quot;body&quot;: [
+      &quot;@doc \&quot;\&quot;\&quot;&quot;,
+      &quot;$0&quot;,
+      &quot;\&quot;\&quot;\&quot;&quot;
+    ]
+  },
+  &quot;doc examples&quot;: {
+    &quot;prefix&quot;: &quot;doce&quot;,
+    &quot;body&quot;: [
+      &quot;## Examples&quot;,
+      &quot;&quot;,
+      &quot;    iex&gt; $1&quot;
+    ]
+  },
+  &quot;io inspect&quot;: {
+    &quot;prefix&quot;: &quot;ioi&quot;,
+    &quot;body&quot;: [
+      &quot;IO.inspect($1, label: \&quot;${0:\\n\\n}\&quot;)&quot;
+    ]
+  },
+  &quot;here for io label&quot;: {
+    &quot;prefix&quot;: &quot;here&quot;,
+    &quot;body&quot;: [
+      &quot;\\n#{inspect __ENV__.context_modules}#{inspect __ENV__.function}\\n&quot;
+    ]
+  },
+  &quot;function&quot;: {
+    &quot;prefix&quot;: &quot;f&quot;,
+    &quot;body&quot;: [
+      &quot;fn $1 do&quot;,
+      &quot;  $0&quot;,
+      &quot;end&quot;
+    ]
+  },
+  &quot;function short&quot;: {
+    &quot;prefix&quot;: &quot;fl&quot;,
+    &quot;body&quot;: [
+      &quot;&amp; &amp;1&quot;
+    ]
+  },
+  &quot;then function&quot;: {
+    &quot;prefix&quot;: &quot;ct&quot;,
+    &quot;body&quot;: [
+      &quot;|&gt; then(fn $1 do&quot;,
+      &quot;  $0&quot;,
+      &quot;end)&quot;
+    ]
+  },
+  &quot;then function short&quot;: {
+    &quot;prefix&quot;: &quot;ctl&quot;,
+    &quot;body&quot;: [
+      &quot;|&gt; then(&amp; $0)&quot;
+    ]
+  },
+  &quot;then with io inspection&quot;: {
+    &quot;prefix&quot;: &quot;ctioi&quot;,
+    &quot;body&quot;: [
+      &quot;|&gt; then(fn item -&gt; IO.inspect(item, label: \&quot;${0:\\n\\n}\&quot;); item end)&quot;
+    ]
+  },
+  &quot;Enum start&quot;: {
+    &quot;prefix&quot;: &quot;e&quot;,
+    &quot;body&quot;: [
+      &quot;Enum.$1($0)&quot;
+    ]
+  },
+  &quot;Enum start with chain&quot;: {
+    &quot;prefix&quot;: &quot;ce&quot;,
+    &quot;body&quot;: [
+      &quot;|&gt; Enum.$1($0)&quot;
+    ]
+  },
+  &quot;Enum.map with chain&quot;: {
+    &quot;prefix&quot;: &quot;cem&quot;,
+    &quot;body&quot;: [
+      &quot;|&gt; Enum.map(&amp; &amp;1$0)&quot;
+    ]
+  },
+  &quot;Map start&quot;: {
+    &quot;prefix&quot;: &quot;m&quot;,
+    &quot;body&quot;: [
+      &quot;Map.$1($0)&quot;
+    ]
+  },
+  &quot;Map start with chain&quot;: {
+    &quot;prefix&quot;: &quot;cm&quot;,
+    &quot;body&quot;: [
+      &quot;|&gt; Map.$1($0)&quot;
+    ]
+  },
+  &quot;List start&quot;: {
+    &quot;prefix&quot;: &quot;l&quot;,
+    &quot;body&quot;: [
+      &quot;List$1&quot;
+    ]
+  },
+  &quot;List start with chain&quot;: {
+    &quot;prefix&quot;: &quot;cl&quot;,
+    &quot;body&quot;: [
+      &quot;|&gt; List.$1($0)&quot;
+    ]
+  },
+  &quot;Keyword start&quot;: {
+    &quot;prefix&quot;: &quot;k&quot;,
+    &quot;body&quot;: [
+      &quot;Keyword.$1($0)&quot;
+    ]
+  },
+  &quot;Keyword start with chain&quot;: {
+    &quot;prefix&quot;: &quot;ck&quot;,
+    &quot;body&quot;: [
+      &quot;|&gt; Keyword.$1($0)&quot;
+    ]
+  },
+  &quot;Flow map chain&quot;: {
+    &quot;prefix&quot;: &quot;flow&quot;,
+    &quot;body&quot;: [
+      &quot;|&gt; Flow.from_enumerable()&quot;,
+      &quot;|&gt; Flow.map($0)&quot;,
+      &quot;|&gt; Enum.to_list()&quot;
+    ]
+  },
+  &quot;defmacro using&quot;: {
+    &quot;prefix&quot;: &quot;defmu&quot;,
+    &quot;body&quot;: [
+      &quot;defmacro __using__(which) when is_atom(which) do&quot;,
+      &quot;  apply(__MODULE__, which, [])&quot;,
+      &quot;end&quot;
+    ]
+  },
+  &quot;live view socket.assigns&quot;: {
+    &quot;prefix&quot;: &quot;sa&quot;,
+    &quot;body&quot;: [
+      &quot;socket.assigns.&quot;
+    ]
+  },
+  &quot;live view assign&quot;: {
+    &quot;prefix&quot;: &quot;as&quot;,
+    &quot;body&quot;: [
+      &quot;assign($0)&quot;
+    ]
+  },
+  &quot;live view handle_event&quot;: {
+    &quot;prefix&quot;: &quot;defhe&quot;,
+    &quot;body&quot;: [
+      &quot;@impl true&quot;,
+      &quot;def handle_event(\&quot;$1\&quot;, ${2:params}, socket) do&quot;,
+      &quot;  $3&quot;,
+      &quot;end&quot;
+    ]
+  },
+  &quot;live view handle_info&quot;: {
+    &quot;prefix&quot;: &quot;defhi&quot;,
+    &quot;body&quot;: [
+      &quot;@impl true&quot;,
+      &quot;def handle_info({:$1}, socket) do&quot;,
+      &quot;  $2&quot;,
+      &quot;end&quot;
+    ]
+  }
+}</code></pre><p><strong>参考</strong></p><p>vimrcの設定は下記のような感じ</p><pre><code>&quot; vim-vsnip
+&quot; samples: https://github.com/rafamadriz/friendly-snippets/tree/main/snippets
+imap &lt;expr&gt; &lt;C-l&gt;   vsnip#expandable() ? &#39;&lt;Plug&gt;(vsnip-expand)&#39;         : &#39;&lt;C-l&gt;&#39;
+smap &lt;expr&gt; &lt;C-l&gt;   vsnip#expandable() ? &#39;&lt;Plug&gt;(vsnip-expand)&#39;         : &#39;&lt;C-l&gt;&#39;
+imap &lt;expr&gt; &lt;C-l&gt;   vsnip#available(1) ? &#39;&lt;Plug&gt;(vsnip-expand-or-jump)&#39; : &#39;&lt;C-l&gt;&#39;
+smap &lt;expr&gt; &lt;C-l&gt;   vsnip#available(1) ? &#39;&lt;Plug&gt;(vsnip-expand-or-jump)&#39; : &#39;&lt;C-l&gt;&#39;
+imap &lt;expr&gt; &lt;Tab&gt;   vsnip#jumpable(1)  ? &#39;&lt;Plug&gt;(vsnip-jump-next)&#39;      : &#39;&lt;Tab&gt;&#39;
+smap &lt;expr&gt; &lt;Tab&gt;   vsnip#jumpable(1)  ? &#39;&lt;Plug&gt;(vsnip-jump-next)&#39;      : &#39;&lt;Tab&gt;&#39;
+imap &lt;expr&gt; &lt;S-Tab&gt; vsnip#jumpable(-1) ? &#39;&lt;Plug&gt;(vsnip-jump-prev)&#39;      : &#39;&lt;S-Tab&gt;&#39;
+smap &lt;expr&gt; &lt;S-Tab&gt; vsnip#jumpable(-1) ? &#39;&lt;Plug&gt;(vsnip-jump-prev)&#39;      : &#39;&lt;S-Tab&gt;&#39;</code></pre>
+        </div>
+      </div>
+    </article>
+    <div class="max-w-4xl lg:mx-auto bg-white rounded mt-12">
+
+  <div class="p-4">
+    <h2 class="text-sm font-bold text-gray-600">サイト内検索</h2>
+    <script async src="https://cse.google.com/cse.js?cx=46c892229d3371f89"></script>
+    <div class="gcse-search"></div>
+  </div>
+</div>
+
+  </section>
+</main>
+<footer class="w-full h-28 bg-gray-600 text-center py-2">
+  <div class="w-full h-full flex justify-center items-center">
+    <p class="text-gray-300">
+      &copy; にむかひて<br />
+      <a href="https://forms.office.com/r/PRgKX4Hv7D" target="_blank"> お問い合わせはこちら </a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
