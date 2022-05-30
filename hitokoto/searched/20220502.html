@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<title>Fly.ioへのPhoenixアプリケーションのデプロイ（お試し） | にむかひて</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="../../css/whole.css" />
+<link rel="stylesheet" href="part.css" />
+</head>
+
+<body class="min-h-screen bg-gray-100">
+<header class="sticky top-0 w-full bg-gray-600 border-t-2 border-blue-400 text-white text-center py-2 z-50">
+  <h1 class="w-48 text-2xl"> <a href="../../index.html">にむかひて</a> </h1>
+</header>
+
+<main class="w-full mb-6">
+  <section class="bg-blue-400 pt-8 pb-6">
+    <div class="max-w-4xl lg:mx-auto mx-4">
+      <h2 class="text-5xl text-white font-bold"> Fly.ioへのPhoenixアプリケーションのデプロイ（お試し） </h2>
+      <div class="flex justify-between pt-4">
+        <p class="text-md text-white">
+          <span id="month">2022年5月</span>
+          <span class="ml-2">
+          <a href="../../index.html" class="underline">トップ</a>
+ &gt; <a href="../index.html" class="underline">ひとこと</a>
+ &gt; <a href="index.html" id="genre" class="underline">調査したことの記録</a>
+
+          </span>
+          <br />
+          <span id="tag">#Elixir #Phoenix</span>
+        </p>
+        <p>
+          <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank" class="twitter-share-button" data-show-count="false" data-text="Fly.ioへのPhoenixアプリケーションのデプロイ（お試し）" data-url="https://tsuredzure.pages.dev/hitokoto/searched/20220502.html">Tweet</a>
+          <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </p>
+      </div>
+    </div>
+  </section>
+  <section class="relative bg-gray-100 text-gray-600">
+    <div class="absolute top-0 left-0 w-full h-16 bg-blue-400 z-0"></div>
+    <article class="relative flex justify-center items-center z-10">
+      <div class="w-full max-w-4xl lg:mx-auto bg-white shadow-xl px-8 py-12 mt-4">
+        <div class="md-content">
+        <ul><li>Postgresqlの無料枠があるときいて…</li><li>Phoenix version 1.6.6<ul><li><code class="inline">config/runtime.exs</code>が存在するバージョン</li></ul></li><li>ここではDockerイメージにしているものとする</li></ul><h2>Fly.io ことはじめ</h2><p>簡単に。適宜とばしてください。</p><ul><li><a href="https://fly.io/docs/hands-on/installing/">ハンズオン</a><ul><li><code class="inline">fly launch</code> するときにリージョンが選べる（Tokyoあり）</li><li><code class="inline">fly launch</code> すると、<code class="inline">fly.toml</code>ファイルが作成される。これが各設定になる</li></ul></li><li><code class="inline">fly help</code> でコマンド一覧<ul><li><code class="inline">fly help &lt;command&gt;</code> でコマンドごとのヘルプ</li><li><code class="inline">fly help launch</code> をみるとオプションをみれるなど</li><li><code class="inline">fly status</code> でアプリ名/URLなどがみれる</li></ul></li><li>止め方<ul><li>無料プラン利用でもクレジットカード登録がいるので事故らないために必要</li><li><code class="inline">fly scale 0</code>で一時停止、<code class="inline">fly destroy</code>で削除</li></ul></li></ul><h2>Fly.ioでPostgresqlを用意</h2><ul><li><a href="https://fly.io/docs/reference/postgres/">Postgres on Fly</a></li><li>とりあえず作る。この時点で独立して動くFly.ioのアプリのひとつ</li><li>無料枠の説明を見る限り、<code class="inline">Development - Single node, 1x shared CPU, 256MB RAM, 1GB disk</code>にすれば、3GBになるまで無料と思われる</li><li><code class="inline">fly.toml</code>は作られない。状態をみるには、<code class="inline">fly status -a &lt;app-name&gt;</code> などとする</li></ul><h2>Fly.io上にアプリケーションを登録</h2><ul><li>ここでは<code class="inline">fly launch</code> のみでデプロイは各種設定後に行う</li><li><code class="inline">fly launch</code>時にエラーになると、完了していなくてもFly.io上にはアプリが登録されることがあるので、再実行するには<code class="inline">fly destroy</code>で消す必要がある（あるいはそのまま<code class="inline">deploy</code>を叩けばいけるかもしれない？）</li></ul><h2>データベースにつなげる</h2><ul><li><code class="inline">fly postgres attach --app &lt;app-name&gt; --postgres-app &lt;postgres-app-name&gt;</code></li></ul><h2>その他の設定を行う</h2><ul><li>デプロイ前に環境変数を設定する(<code class="inline">fly secrets set</code>)<ul><li><code class="inline">DATABASE_URL</code>がデータベースとつないだときに作成されている</li><li>そのため<code class="inline">DATABASE_URL</code>をEctoの設定で使っている方が楽</li><li>Flyネットワーク上ではDBインスタンスとIPv6による通信を行う模様。Ecto設定を確認する必要がある<ul><li>デフォルトだと、<code class="inline">ECTO_IPV6=true</code>を設定すると有効になる</li></ul></li></ul></li><li><code class="inline">fly.toml</code>についてはポートなどを確認して必要に応じて変更する。例えば 8088 =&gt; 4000</li><li>またLiveViewを使う場合は、<code class="inline">check_origin</code>に今回使用するドメインを設定する必要あり</li></ul><h2>デプロイおよびマイグレーション</h2><ul><li>デプロイ：<code class="inline">fly deploy -i &lt;dockerimage&gt;</code></li><li>マイグレーション<ul><li>SSHで入って行う<ul><li><a href="https://fly.io/docs/getting-started/elixir/#iex-shell-into-your-running-app">https://fly.io/docs/getting-started/elixir/#iex-shell-into-your-running-app</a></li></ul></li><li>手元では、<code class="inline">/srv/release/bin/service rpc &#39;MyApp.Release.migrate()&#39;</code> といった感じで実行</li></ul></li></ul><h2>参考にさせていただいた資料</h2><p>（公式以外）</p><ul><li><a href="https://zenn.dev/kentarok/articles/97ea8e79215d4a">BanditとPlugによるElixir製のシンプルなWebアプリケーションをfly.ioにデプロイする</a></li><li><a href="https://castaneai.hatenablog.com/entry/pleroma-on-fly-io">fly.io に Pleroma を設置する</a></li></ul><h2>その他</h2><p><em>CI/CD</em></p><ul><li><a href="https://fly.io/docs/app-guides/continuous-deployment-with-github-actions/">https://fly.io/docs/app-guides/continuous-deployment-with-github-actions/</a></li></ul><p><em>Fly.ioの金額確認</em></p><ul><li><a href="https://fly.io/dashboard">ダッシュボード</a></li></ul><p><em>使用したDockerfile</em></p><ul><li>軽量なイメージを使用している</li><li>依存パッケージをインストールしている</li><li>リリースパッケージを解凍して配置している</li></ul><pre><code>FROM debian:bookworm-slim
+
+# 依存パッケージ
+RUN apt update \
+  &amp;&amp; apt install -y mecab mecab-ipadic mecab-ipadic-utf8 \
+  &amp;&amp; apt-get clean \
+  &amp;&amp; rm -rf /var/lib/apt/lists/*
+
+# Copy package
+RUN mkdir /srv/release
+ADD ./service/service-0.0.1.tar.gz /srv/release/
+
+WORKDIR /srv
+CMD /srv/release/bin/service start</code></pre>
+        </div>
+      </div>
+    </article>
+    <div class="max-w-4xl lg:mx-auto bg-white rounded mt-12">
+
+  <div class="p-4">
+    <h2 class="text-sm font-bold text-gray-600">サイト内検索</h2>
+    <script async src="https://cse.google.com/cse.js?cx=46c892229d3371f89"></script>
+    <div class="gcse-search"></div>
+  </div>
+</div>
+
+  </section>
+</main>
+<footer class="w-full h-28 bg-gray-600 text-center py-2">
+  <div class="w-full h-full flex justify-center items-center">
+    <p class="text-gray-300">
+      &copy; にむかひて<br />
+      <a href="https://forms.office.com/r/PRgKX4Hv7D" target="_blank"> お問い合わせはこちら </a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
