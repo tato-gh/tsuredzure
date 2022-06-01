@@ -1,1 +1,1 @@
-Sitemap: https://ta-to.github.io/tsuredzure/sitemap.txt
+Sitemap: https://tsuredzure.pages.dev/sitemap.txt
