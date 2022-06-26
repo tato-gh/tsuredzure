@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<title>ETSかAgent（サーバ）か | にむかひて</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="../../css/whole.css" />
+<link rel="stylesheet" href="part.css" />
+</head>
+
+<body class="min-h-screen bg-gray-100">
+<header class="sticky top-0 w-full bg-gray-600 border-t-2 border-blue-400 text-white text-center py-2 z-50">
+  <h1 class="w-48 text-2xl"> <a href="../../index.html">にむかひて</a> </h1>
+</header>
+
+<main class="w-full mb-6">
+  <section class="bg-blue-400 pt-8 pb-6">
+    <div class="max-w-4xl lg:mx-auto mx-4">
+      <h2 class="text-5xl text-white font-bold"> ETSかAgent（サーバ）か </h2>
+      <div class="flex justify-between pt-4">
+        <p class="text-md text-white">
+          <span id="month">2022年6月</span>
+          <span class="ml-2">
+          <a href="../../index.html" class="underline">トップ</a>
+ &gt; <a href="../index.html" class="underline">ひとこと</a>
+ &gt; <a href="index.html" id="genre" class="underline">調査したことの記録</a>
+
+          </span>
+          <br />
+          <span id="tag">#Elixir #Phoenix #ETS #Agent</span>
+        </p>
+        <p>
+          <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank" class="twitter-share-button" data-show-count="false" data-text="ETSかAgent（サーバ）か" data-url="https://tsuredzure.pages.dev/hitokoto/searched/20220603.html">Tweet</a>
+          <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </p>
+      </div>
+    </div>
+  </section>
+  <section class="relative bg-gray-100 text-gray-600">
+    <div class="absolute top-0 left-0 w-full h-16 bg-blue-400 z-0"></div>
+    <article class="relative flex justify-center items-center z-10">
+      <div class="w-full max-w-4xl lg:mx-auto bg-white shadow-xl px-8 py-12 mt-4">
+        <div class="md-content">
+        <ul><li>ETSにデータを入れていたけど、全部Agent（GenServer）にして保持するとどの程度コストがかかるか気になった</li></ul><p><strong>結論</strong></p><ul><li>データ投入では約10倍<ul><li>とはいえ、許容できる時間と思われる</li></ul></li><li>データ参照では約6倍程度<ul><li>こちらはデータ数によりそう</li><li>といってもほとんど許容できる時間の様子</li></ul></li><li>メモリ使用量が約10倍<ul><li>これがネックになりそう</li></ul></li><li>（その後）DETSも試したところ、ETSに対し、投入で100倍、参照で10倍くらいの様子</li></ul><p><strong>実験で使った処理</strong></p><ul><li>構造体をKey-Valueで参照するケースで考える</li><li>簡単のため並列化はせずに行う</li></ul><pre><code># 対象構造体
+defmodule User do
+  defstruct [:uuid, :code1, :code2, :code3]
+
+  def sample do
+    %User{
+      uuid: Ecto.UUID.generate(),
+      code1: random_str(10),
+      code2: random_str(10),
+      code3: random_str(10),
+    }
+  end
+
+  defp random_str(num) do
+    :crypto.strong_rand_bytes(num)
+    |&gt; Base.encode64()
+    |&gt; binary_part(0, num)
+  end
+end
+
+# 構造体データ作成
+# - 件数が多い場合には `export ELIXIR_ERL_OPTIONS=&quot;+P 1000000&quot;` が必要
+size = 500_000
+users = (1..size) |&gt; Enum.map(fn _ -&gt; User.sample() end)
+
+# ETS テーブル
+table = :ets.new(:lookup_users, [:set, :protected])
+
+# エージェント（サーバ）
+defmodule MyAgent do
+  use Agent
+
+  def start_link(user) do
+    Agent.start_link(fn -&gt; user end, name: :&quot;#{user.uuid}&quot;)
+  end
+
+  def get(uuid) do
+    Agent.get(:&quot;#{uuid}&quot;, &amp; &amp;1)
+  end
+end
+
+# 計測処理
+measure = (fn func -&gt;
+  total_before = :erlang.memory(:total)
+  {t, :done} = :timer.tc(fn -&gt;
+    func.()
+    :done
+  end)
+  total_after = :erlang.memory(:total)
+  sec = t / 1000000
+  IO.inspect({sec, total_after - total_before})
+end)
+
+
+# (1-1) ETS 構築
+measure.(fn -&gt;
+  users
+  |&gt; Enum.each(&amp; :ets.insert(table, {&amp;1.uuid, &amp;1}))
+end)
+
+# (1-2) エージェント 構築
+measure.(fn -&gt;
+  users
+  |&gt; Enum.each(&amp; MyAgent.start_link/1)
+end)
+
+# (2-1) ETS 参照
+measure.(fn -&gt;
+  users
+  |&gt; Enum.each(&amp; :ets.lookup(table, &amp;1.uuid))
+end)
+
+# (2-2) エージェント 参照
+measure.(fn -&gt;
+  users
+  |&gt; Enum.each(&amp; MyAgent.get(&amp;1.uuid))
+end)</code></pre>
+        </div>
+      </div>
+    </article>
+    <div class="max-w-4xl lg:mx-auto bg-white rounded mt-12">
+
+  <div class="p-4">
+    <h2 class="text-sm font-bold text-gray-600">サイト内検索</h2>
+    <script async src="https://cse.google.com/cse.js?cx=46c892229d3371f89"></script>
+    <div class="gcse-search"></div>
+  </div>
+</div>
+
+  </section>
+</main>
+<footer class="w-full h-28 bg-gray-600 text-center py-2">
+  <div class="w-full h-full flex justify-center items-center">
+    <p class="text-gray-300">
+      &copy; にむかひて<br />
+      <a href="https://forms.office.com/r/PRgKX4Hv7D" target="_blank"> お問い合わせはこちら </a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
