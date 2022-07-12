@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<title>Agent.castの動き | にむかひて</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="../../css/whole.css" />
+<link rel="stylesheet" href="part.css" />
+</head>
+
+<body class="min-h-screen bg-gray-100">
+<header class="sticky top-0 w-full bg-gray-600 border-t-2 border-blue-400 text-white text-center py-2 z-50">
+  <h1 class="w-48 text-2xl"> <a href="../../index.html">にむかひて</a> </h1>
+</header>
+
+<main class="w-full mb-6">
+  <section class="bg-blue-400 pt-8 pb-6">
+    <div class="max-w-4xl lg:mx-auto mx-4">
+      <h2 class="text-5xl text-white font-bold"> Agent.castの動き </h2>
+      <div class="flex justify-between pt-4">
+        <p class="text-md text-white">
+          <span id="month">2022年7月</span>
+          <span class="ml-2">
+          <a href="../../index.html" class="underline">トップ</a>
+ &gt; <a href="../index.html" class="underline">ひとこと</a>
+ &gt; <a href="index.html" id="genre" class="underline">調査したことの記録</a>
+
+          </span>
+          <br />
+          <span id="tag">#Elixir</span>
+        </p>
+        <p>
+          <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank" class="twitter-share-button" data-show-count="false" data-text="Agent.castの動き" data-url="https://tsuredzure.pages.dev/hitokoto/searched/20220701.html">Tweet</a>
+          <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </p>
+      </div>
+    </div>
+  </section>
+  <section class="relative bg-gray-100 text-gray-600">
+    <div class="absolute top-0 left-0 w-full h-16 bg-blue-400 z-0"></div>
+    <article class="relative flex justify-center items-center z-10">
+      <div class="w-full max-w-4xl lg:mx-auto bg-white shadow-xl px-8 py-12 mt-4">
+        <div class="md-content">
+        <ul><li><code class="inline">Agent.cast()</code>を使うことがあったので改めて動きを確認した</li></ul><p><strong>結論</strong></p><ul><li><code class="inline">Agent.cast()</code>は送り先がいなくても例外にならない</li><li><code class="inline">Agent.cast()</code>は実行元にはすぐに戻るため、実行元に対して非同期で走る</li><li>補足として、同じ(Elixir)プロセスに連続でcastした場合は、該当プロセス内では順序を守って（同期的に）実行される。正に1プロセス~レースコンディションしない様子
+（もとになっている<code class="inline">GenServer.cast</code>も同様）</li></ul><p><strong>実験で使った処理</strong></p><pre><code>defmodule Sample do
+  use Agent
+  def start, do: Agent.start_link(fn -&gt; &quot;Hello&quot; end, name: __MODULE__)
+end
+
+Sample.start()
+Agent.cast(Sample, fn msg -&gt;
+  IO.inspect(msg, label: &quot;First&quot;)
+  :timer.sleep(1000)
+  IO.inspect(msg, label: &quot;First&quot;)
+  &quot;First done&quot;
+end)
+Agent.cast(Sample, fn msg -&gt;
+  IO.inspect(msg, label: &quot;Second&quot;)
+  &quot;Second done&quot;
+end)
+IO.puts &quot;END&quot;
+IO.gets &quot;&quot; # 処理待ちのお約束</code></pre><p>結果は</p><pre><code>END
+First: &quot;Hello&quot;
+First: &quot;Hello&quot;
+Second: &quot;First done&quot;</code></pre><p>になる</p>
+        </div>
+      </div>
+    </article>
+    <div class="max-w-4xl lg:mx-auto bg-white rounded mt-12">
+
+  <div class="p-4">
+    <h2 class="text-sm font-bold text-gray-600">サイト内検索</h2>
+    <script async src="https://cse.google.com/cse.js?cx=46c892229d3371f89"></script>
+    <div class="gcse-search"></div>
+  </div>
+</div>
+
+  </section>
+</main>
+<footer class="w-full h-28 bg-gray-600 text-center py-2">
+  <div class="w-full h-full flex justify-center items-center">
+    <p class="text-gray-300">
+      &copy; にむかひて<br />
+      <a href="https://forms.office.com/r/PRgKX4Hv7D" target="_blank"> お問い合わせはこちら </a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
