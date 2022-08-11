@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<title>PETAL構築 2022/08 | にむかひて</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="../../css/whole.css" />
+<link rel="stylesheet" href="part.css" />
+</head>
+
+<body class="min-h-screen bg-gray-100">
+<header class="sticky top-0 w-full bg-gray-600 border-t-2 border-blue-400 text-white text-center py-2 z-50">
+  <h1 class="w-48 text-2xl"> <a href="../../index.html">にむかひて</a> </h1>
+</header>
+
+<main class="w-full mb-6">
+  <section class="bg-blue-400 pt-8 pb-6">
+    <div class="max-w-4xl lg:mx-auto mx-4">
+      <h2 class="text-5xl text-white font-bold"> PETAL構築 2022/08 </h2>
+      <div class="flex justify-between pt-4">
+        <p class="text-md text-white">
+          <span id="month">2022年8月</span>
+          <span class="ml-2">
+          <a href="../../index.html" class="underline">トップ</a>
+ &gt; <a href="../index.html" class="underline">ひとこと</a>
+ &gt; <a href="index.html" id="genre" class="underline">調査したことの記録</a>
+
+          </span>
+          <br />
+          <span id="tag">#Phoenix #Elixir #Tailwindcss #Alpine.js #LiveView</span>
+        </p>
+        <p>
+          <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank" class="twitter-share-button" data-show-count="false" data-text="PETAL構築 2022/08" data-url="https://tsuredzure.pages.dev/hitokoto/searched/20220801.html">Tweet</a>
+          <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </p>
+      </div>
+    </div>
+  </section>
+  <section class="relative bg-gray-100 text-gray-600">
+    <div class="absolute top-0 left-0 w-full h-16 bg-blue-400 z-0"></div>
+    <article class="relative flex justify-center items-center z-10">
+      <div class="w-full max-w-4xl lg:mx-auto bg-white shadow-xl px-8 py-12 mt-4">
+        <div class="md-content">
+        <ul><li>新プロジェクトを構築した際のメモ</li><li>おまけで、daisyUI, sass, sw.js を追加</li><li>補足: petal (components?) なるデザインセットとは関係なし</li></ul><p><strong>P: Phoenix</strong></p><p>Dockerfileの例</p><pre><code>FROM elixir:1.13
+
+ENV PHOENIX_VERSION 1.6.11
+ENV NPM_VERSION 8.16.0
+ENV NODE_VERSION 18.x
+
+# NODE/NPM
+RUN curl -fsSL https://deb.nodesource.com/setup_${NODE_VERSION} | bash - \
+  &amp;&amp; apt install -y nodejs
+RUN npm install npm@${NPM_VERSION} -g
+
+# Phoenix
+RUN mix local.hex --force &amp;&amp; \
+  mix archive.install --force hex phx_new ${PHOENIX_VERSION} &amp;&amp; \
+  mix local.rebar --force</code></pre><p><strong>E: Elixir</strong></p><p>// ElixirはDocker環境まま</p><p><strong>T: Tailwindcss</strong></p><ul><li><a href="https://tailwindcss.com/docs/guides/phoenix">公式</a>まま。</li><li>以前に比べるとPhoenixのための<a href="https://tailwindcss.jp/docs/plugins#adding-variants">カスタム疑似クラスバリアント</a>の定義が増えている様子</li><li>コード差分は末尾</li></ul><p><strong>A: Alpine.js</strong></p><p>パッケージインストール</p><ul><li><a href="https://alpinejs.dev/essentials/installation#as-a-module">https://alpinejs.dev/essentials/installation#as-a-module</a></li></ul><pre><code>cd assets &amp;&amp; npm install alpinejs</code></pre><p>設定差分 <code class="inline">assets/js/app.js</code></p><pre><code>+import Alpine from &quot;alpinejs&quot;
++Alpine.start()
+
+-let liveSocket = new LiveSocket(&quot;/live&quot;, Socket, {params: {_csrf_token: csrfToken}})
++let liveSocket = new LiveSocket(&quot;/live&quot;, Socket, {
++  params: {_csrf_token: csrfToken},
++  dom: {
++    onBeforeElUpdated(from, to) {
++      if (from._x_dataStack) {
++        window.Alpine.clone(from, to)
++      }
++    }
++  }
++})</code></pre><p>テストコード <code class="inline">templates/page/index.html.heex</code></p><pre><code>&lt;div x-data=&quot;{open: false}&quot;&gt;
+    &lt;button @click=&quot;open = true&quot;&gt;Expand&lt;/button&gt;
+    &lt;span x-show=&quot;open&quot;&gt;
+      Content...
+    &lt;/span&gt;
+&lt;/div&gt;</code></pre><p><strong>L: LiveView</strong></p><p>LiveViewは、現在のPhenixではデフォルトで採用されている</p><ul><li>LiveViewで扱うリソースとAlpine.jsと扱うリソースは、扱いを混ぜない方が良さそう</li><li>ベースとなるLiveView＋クライアント側で完結するような処理にAlpine.jsを使う<ul><li>例えば、CSSテーマの切り替えなどはAlpine.js</li></ul></li></ul><p><strong>おまけ: DaisyUI</strong></p><p><a href="https://daisyui.com/">DaisyUI</a>はTailwindcssを使用したコンポーネントセット</p><p>パッケージインストール</p><pre><code>cd assets &amp;&amp; npm install daisyui theme-change</code></pre><ul><li>テーマ変更方法として<a href="https://daisyui.com/docs/themes/">公式</a>でtheme-changeを使うのをお勧めされている</li></ul><p>設定例 <code class="inline">assets/tailwind.config.js</code></p><pre><code>module.exports = {
+  ...
+  plugins: [
+    ...
+    require(&quot;daisyui&quot;)
+  ],
+  daisyui: {
+    themes: [&quot;garden&quot;, &quot;light&quot;, &quot;forest&quot;, &quot;dark&quot;],
+    darkTheme: &quot;forest&quot;
+  }
+]</code></pre><ul><li><code class="inline">themes</code>: 最初に指定したテーマがデフォルトで適用される</li><li><code class="inline">darkTheme</code>: ユーザーがダークモードを使用した際に適用されるデフォルト<ul><li>// 明示した方がわかりやすいと考えている</li></ul></li></ul><p>設定例 <code class="inline">assets/js/app.js</code></p><pre><code>import { themeChange } from &quot;theme-change&quot;;
+themeChange();</code></pre><p>確認用HTML例 <code class="inline">templates/page/index.html.heex</code></p><pre><code>&lt;select class=&quot;select&quot; data-choose-theme&gt;
+  &lt;option value=&quot;&quot;&gt;Default&lt;/option&gt;
+  &lt;option value=&quot;light&quot;&gt;Light&lt;/option&gt;
+  &lt;option value=&quot;forest&quot;&gt;Forest&lt;/option&gt;
+  &lt;option value=&quot;dark&quot;&gt;Dark&lt;/option&gt;
+&lt;/select&gt;</code></pre><h2>参考させていただいた資料</h2><ul><li><a href="https://qiita.com/torifukukaiou/items/4112f18ef516150da641">Phoenix x Tailwind CSS x daisyUIでthemeChange</a></li></ul><h2>コード差分</h2><p>以下は、Tailwindcss導入時のコード差分</p><pre><code>diff --git a/assets/css/app.css b/assets/css/app.css
+--- a/assets/css/app.css
++++ b/assets/css/app.css
+@@ -1,5 +1,8 @@
++@import &quot;tailwindcss/base&quot;;
++@import &quot;tailwindcss/components&quot;;
++@import &quot;tailwindcss/utilities&quot;;
++
+ /* This file is for your main application CSS */
+ -@import &quot;./phoenix.css&quot;;
+
+  /* Alerts and form errors used by phx.new */
+   .alert {
+diff --git a/assets/tailwind.config.js b/assets/tailwind.config.js
+new file mode 100644
+--- /dev/null
++++ b/assets/tailwind.config.js
+@@ -0,0 +1,22 @@
++// See the Tailwind configuration guide for advanced usage
++// https://tailwindcss.com/docs/configuration
++
++let plugin = require(&#39;tailwindcss/plugin&#39;)
++
++module.exports = {
++  content: [
++    &#39;./js/**/*.js&#39;,
++    &#39;../lib/*_web.ex&#39;,
++    &#39;../lib/*_web/**/*.*ex&#39;
++  ],
++  theme: {
++    extend: {},
++  },
++  plugins: [
++    require(&#39;@tailwindcss/forms&#39;),
++    plugin(({addVariant}) =&gt; addVariant(&#39;phx-no-feedback&#39;, [&#39;&amp;.phx-no-feedback&#39;, &#39;.phx-no-feedback &amp;&#39;])),
++    plugin(({addVariant}) =&gt; addVariant(&#39;phx-click-loading&#39;, [&#39;&amp;.phx-click-loading&#39;, &#39;.phx-click-loading &amp;&#39;])),
++    plugin(({addVariant}) =&gt; addVariant(&#39;phx-submit-loading&#39;, [&#39;&amp;.phx-submit-loading&#39;, &#39;.phx-submit-loading &amp;&#39;])),
++    plugin(({addVariant}) =&gt; addVariant(&#39;phx-change-loading&#39;, [&#39;&amp;.phx-change-loading&#39;, &#39;.phx-change-loading &amp;&#39;]))
++  ]
++}
+diff --git a/config/config.exs b/config/config.exs
+--- a/config/config.exs
++++ b/config/config.exs
+@@ -47,6 +47,16 @@ config :logger, :console,
+ # Use Jason for JSON parsing in Phoenix
+ config :phoenix, :json_library, Jason
+
++# Use Tailwindcss
++config :tailwind, version: &quot;3.1.6&quot;, default: [
++  args: ~w(
++    --config=tailwind.config.js
++    --input=css/app.css
++    --output=../priv/static/assets/app.css
++  ),
++  cd: Path.expand(&quot;../assets&quot;, __DIR__)
++]
++
+ # Import environment specific config. This must remain at the bottom
+ # of this file so it overrides the configuration defined above.
+ import_config &quot;#{config_env()}.exs&quot;
+diff --git a/config/dev.exs b/config/dev.exs
+--- a/config/dev.exs
++++ b/config/dev.exs
+@@ -26,7 +26,9 @@ config :tontenkan, TontenkanWeb.Endpoint,
+   secret_key_base: &quot;SqNDkijN2qE5jf7X0cjdC3rgggxZnq/pyRCaKHsBf0ccJwxH6ZAGHRXizTrgOZsv&quot;,
+   watchers: [
+     # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
+-    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
++    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
++    # Tailwindcss
++    tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}
+   ]
+
+ # ## SSL Support
+diff --git a/lib/tontenkan_web/templates/page/index.html.heex b/lib/tontenkan_web/templates/page/index.html.heex
+--- a/lib/tontenkan_web/templates/page/index.html.heex
++++ b/lib/tontenkan_web/templates/page/index.html.heex
+@@ -3,6 +3,10 @@
+   &lt;p&gt;Peace of mind from prototype to production&lt;/p&gt;
+ &lt;/section&gt;
+
++&lt;h1 class=&quot;text-3xl font-bold underline&quot;&gt;
++  Hello world!
++&lt;/h1&gt;
++
+ &lt;section class=&quot;row&quot;&gt;
+   &lt;article class=&quot;column&quot;&gt;
+     &lt;h2&gt;Resources&lt;/h2&gt;
+diff --git a/mix.exs b/mix.exs
+--- a/mix.exs
++++ b/mix.exs
+@@ -49,6 +49,8 @@ defmodule Tontenkan.MixProject do
+       {:gettext, &quot;~&gt; 0.18&quot;},
+       {:jason, &quot;~&gt; 1.2&quot;},
+       {:plug_cowboy, &quot;~&gt; 2.5&quot;},
++      # assets
++      {:tailwind, &quot;~&gt; 0.1&quot;, runtime: Mix.env() == :dev},
+       # tools
+       {:mecab, &quot;~&gt; 1.0&quot;},
+       # for test
+@@ -68,7 +70,7 @@ defmodule Tontenkan.MixProject do
+       &quot;ecto.setup&quot;: [&quot;ecto.create&quot;, &quot;ecto.migrate&quot;, &quot;run priv/repo/seeds.exs&quot;],
+       &quot;ecto.reset&quot;: [&quot;ecto.drop&quot;, &quot;ecto.setup&quot;],
+       test: [&quot;ecto.create --quiet&quot;, &quot;ecto.migrate --quiet&quot;, &quot;test&quot;],
+-      &quot;assets.deploy&quot;: [&quot;esbuild default --minify&quot;, &quot;phx.digest&quot;]
++      &quot;assets.deploy&quot;: [&quot;tailwind default --minify&quot;, &quot;esbuild default --minify&quot;, &quot;phx.digest&quot;]
+     ]
+   end
+ end</code></pre>
+        </div>
+      </div>
+    </article>
+    <div class="max-w-4xl lg:mx-auto bg-white rounded mt-12">
+
+  <div class="p-4">
+    <h2 class="text-sm font-bold text-gray-600">サイト内検索</h2>
+    <script async src="https://cse.google.com/cse.js?cx=46c892229d3371f89"></script>
+    <div class="gcse-search"></div>
+  </div>
+</div>
+
+  </section>
+</main>
+<footer class="w-full h-28 bg-gray-600 text-center py-2">
+  <div class="w-full h-full flex justify-center items-center">
+    <p class="text-gray-300">
+      &copy; にむかひて<br />
+      <a href="https://forms.office.com/r/PRgKX4Hv7D" target="_blank"> お問い合わせはこちら </a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>

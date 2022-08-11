@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<title>Maximum call stack size exceeded | にむかひて</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="../../css/whole.css" />
+<link rel="stylesheet" href="part.css" />
+</head>
+
+<body class="min-h-screen bg-gray-100">
+<header class="sticky top-0 w-full bg-gray-600 border-t-2 border-blue-400 text-white text-center py-2 z-50">
+  <h1 class="w-48 text-2xl"> <a href="../../index.html">にむかひて</a> </h1>
+</header>
+
+<main class="w-full mb-6">
+  <section class="bg-blue-400 pt-8 pb-6">
+    <div class="max-w-4xl lg:mx-auto mx-4">
+      <h2 class="text-5xl text-white font-bold"> Maximum call stack size exceeded </h2>
+      <div class="flex justify-between pt-4">
+        <p class="text-md text-white">
+          <span id="month">2022年8月</span>
+          <span class="ml-2">
+          <a href="../../index.html" class="underline">トップ</a>
+ &gt; <a href="../index.html" class="underline">ひとこと</a>
+ &gt; <a href="index.html" id="genre" class="underline">エラーの記録</a>
+
+          </span>
+          <br />
+          <span id="tag">#Phoenix #LiveView #JS</span>
+        </p>
+        <p>
+          <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank" class="twitter-share-button" data-show-count="false" data-text="Maximum call stack size exceeded" data-url="https://tsuredzure.pages.dev/hitokoto/errors/20220801.html">Tweet</a>
+          <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </p>
+      </div>
+    </div>
+  </section>
+  <section class="relative bg-gray-100 text-gray-600">
+    <div class="absolute top-0 left-0 w-full h-16 bg-blue-400 z-0"></div>
+    <article class="relative flex justify-center items-center z-10">
+      <div class="w-full max-w-4xl lg:mx-auto bg-white shadow-xl px-8 py-12 mt-4">
+        <div class="md-content">
+        <p><code class="inline">Uncaught RangeError: Maximum call stack size exceeded.</code></p><ul><li><p>LiveViewの<code class="inline">live_helpers.ex</code>にあるモーダルをカスタマイズしているときに遭遇</p></li><li><p>モーダルを閉じる操作 <code class="inline">phx-click-away={JS.dispatch(&quot;click&quot;, to: &quot;#close&quot;)}</code> 時に発生している様子</p><ul><li>ほかの閉じるボタンやEscボタンでは発生しない</li></ul></li><li><p>Alpine.jsとの兼ね合いかと <code class="inline">x-ignore</code> してみたけどダメ</p></li><li><p><code class="inline">bubbles: true</code> 付けてみると何も起こらない</p></li><li><p>エラー内容をみるに <code class="inline">#close</code> 自体が <code class="inline">.away</code> の対象になっていてループしている…?</p><ul><li>同じdiv内にあるけれど…(?)</li></ul></li><li><p>試しに、<code class="inline">#close</code>で行っている処理をそのまま実行すると通る</p></li></ul><p><strong>結論</strong></p><p><code class="inline">phx-click-away={hide_modal()}</code> にした</p>
+        </div>
+      </div>
+    </article>
+    <div class="max-w-4xl lg:mx-auto bg-white rounded mt-12">
+
+  <div class="p-4">
+    <h2 class="text-sm font-bold text-gray-600">サイト内検索</h2>
+    <script async src="https://cse.google.com/cse.js?cx=46c892229d3371f89"></script>
+    <div class="gcse-search"></div>
+  </div>
+</div>
+
+  </section>
+</main>
+<footer class="w-full h-28 bg-gray-600 text-center py-2">
+  <div class="w-full h-full flex justify-center items-center">
+    <p class="text-gray-300">
+      &copy; にむかひて<br />
+      <a href="https://forms.office.com/r/PRgKX4Hv7D" target="_blank"> お問い合わせはこちら </a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
