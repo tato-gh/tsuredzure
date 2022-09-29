@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<title>Nx GPU導入確認 | にむかひて</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="../../css/whole.css" />
+<link rel="stylesheet" href="part.css" />
+</head>
+
+<body class="min-h-screen bg-gray-100">
+<header class="sticky top-0 w-full bg-gray-600 border-t-2 border-blue-400 text-white text-center py-2 z-50">
+  <h1 class="w-48 text-2xl"> <a href="../../index.html">にむかひて</a> </h1>
+</header>
+
+<main class="w-full mb-6">
+  <section class="bg-blue-400 pt-8 pb-6">
+    <div class="max-w-4xl lg:mx-auto mx-4">
+      <h2 class="text-5xl text-white font-bold"> Nx GPU導入確認 </h2>
+      <div class="flex justify-between pt-4">
+        <p class="text-md text-white">
+          <span id="month">2022年9月</span>
+          <span class="ml-2">
+          <a href="../../index.html" class="underline">トップ</a>
+ &gt; <a href="../index.html" class="underline">ひとこと</a>
+ &gt; <a href="index.html" id="genre" class="underline">調査したことの記録</a>
+
+          </span>
+          <br />
+          <span id="tag">#Phoenix #Elixir #Nx</span>
+        </p>
+        <p>
+          <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank" class="twitter-share-button" data-show-count="false" data-text="Nx GPU導入確認" data-url="https://tsuredzure.pages.dev/hitokoto/searched/20220901.html">Tweet</a>
+          <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </p>
+      </div>
+    </div>
+  </section>
+  <section class="relative bg-gray-100 text-gray-600">
+    <div class="absolute top-0 left-0 w-full h-16 bg-blue-400 z-0"></div>
+    <article class="relative flex justify-center items-center z-10">
+      <div class="w-full max-w-4xl lg:mx-auto bg-white shadow-xl px-8 py-12 mt-4">
+        <div class="md-content">
+        <ul><li>Windows WSL内でGPUを使えるようにしたはず</li><li>Nxで使いたい</li><li>という状態で、どう確認を取ればいいのかわからない</li></ul><p><strong>結論</strong></p><p>まずは、WSL上でのインストール確認</p><pre><code>$ nvidia-smi</code></pre><p>上記で出力があれば問題ない様子</p><p>次に、docker環境下でGPUが見えていることを確認。これは上記コマンドは何かしらのコンテナで実行する</p><pre><code>$ docker run -it --rm --gpus all elixir:1.14 /bin/bash
+# nvidia-smi</code></pre><p>最後に、Livebook等でNxをGPUで使えるか確認するコードを書く。エラーがでないことと速度が速いこと</p><p>Nxの中にあるベンチマーク用のソースを参考に見比べる</p><p><a href="https://github.com/elixir-nx/nx/blob/main/exla/bench/softmax.exs">https://github.com/elixir-nx/nx/blob/main/exla/bench/softmax.exs</a></p><ul><li><code class="inline">EXLA_TARGET=&quot;cuda&quot;</code> を動かすにはビルドが必要だったりでわりと準備が多い様子</li><li>さくっと試すならばexlaで提供されているDockerfileを使うのが良さそう<ul><li><a href="https://github.com/elixir-nx/nx/tree/main/exla">https://github.com/elixir-nx/nx/tree/main/exla</a></li><li>未確認</li></ul></li></ul><p><strong>経過</strong></p><pre><code>(RuntimeError) Could not find registered platform with name: &quot;cuda&quot;. Available platform names are: Host</code></pre>
+        </div>
+      </div>
+    </article>
+    <div class="max-w-4xl lg:mx-auto bg-white rounded mt-12">
+
+  <div class="p-4">
+    <h2 class="text-sm font-bold text-gray-600">サイト内検索</h2>
+    <script async src="https://cse.google.com/cse.js?cx=46c892229d3371f89"></script>
+    <div class="gcse-search"></div>
+  </div>
+</div>
+
+  </section>
+</main>
+<footer class="w-full h-28 bg-gray-600 text-center py-2">
+  <div class="w-full h-full flex justify-center items-center">
+    <p class="text-gray-300">
+      &copy; にむかひて<br />
+      <a href="https://forms.office.com/r/PRgKX4Hv7D" target="_blank"> お問い合わせはこちら </a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
