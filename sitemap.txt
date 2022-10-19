@@ -21,6 +21,10 @@ https://tsuredzure.pages.dev/hitokoto/errors/20220401
 https://tsuredzure.pages.dev/hitokoto/errors/20220501
 https://tsuredzure.pages.dev/hitokoto/errors/20220601
 https://tsuredzure.pages.dev/hitokoto/errors/20220801
+https://tsuredzure.pages.dev/hitokoto/errors/20221001
+https://tsuredzure.pages.dev/hitokoto/errors/20221002
+https://tsuredzure.pages.dev/hitokoto/errors/20221003
+https://tsuredzure.pages.dev/hitokoto/errors/20221004
 https://tsuredzure.pages.dev/hitokoto/errors/
 https://tsuredzure.pages.dev/hitokoto/
 https://tsuredzure.pages.dev/hitokoto/searched/20210301
@@ -66,4 +70,5 @@ https://tsuredzure.pages.dev/sample/sample
 https://tsuredzure.pages.dev/sample/sample_slide
 https://tsuredzure.pages.dev/topics/202112_def_init_freelance
 https://tsuredzure.pages.dev/topics/202201_def_professional_engineer
+https://tsuredzure.pages.dev/topics/20221001
 https://tsuredzure.pages.dev/topics/
